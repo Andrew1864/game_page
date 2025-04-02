@@ -5,11 +5,11 @@ const HomeComponents = () => {
       {/* Hero Section */}
       <section className="w-full max-w-6xl flex flex-col md:flex-row items-center gap-12 py-20">
         {/* Image */}
-        <div className="w-full md:w-1/2 h-80 bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="w-full ml-3.5 md:w-1/2 h-80 bg-white rounded-xl shadow-lg overflow-hidden group">
           <div
-            className="h-full w-full bg-cover bg-center"
+            className="h-full w-full bg-cover bg-center group-hover:filter-none filter grayscale transition-all duration-300"
             style={{
-              backgroundImage: "url(https://via.placeholder.com/400)",
+              backgroundImage: "url('/work.jpg')",
             }}
           ></div>
         </div>
@@ -17,13 +17,18 @@ const HomeComponents = () => {
         <div className="w-full md:w-1/2 text-center md:text-left">
           <h1 className="text-4xl font-bold text-gray-900">Андрей</h1>
           <p className="mt-4 text-gray-600 text-lg">
-            Начинающий программист, Frontend-разработчик, изучаю Fullstack.
+            Начинающий программист, Frontend-разработчик. Этот проект моё
+            портфолио. Тут я показываю чему я смог научиться.
           </p>
+          <button className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+            <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+            <span className="relative z-10 group-hover:text-white">Начать</span>
+          </button>
         </div>
       </section>
       <section className="w-full py-10 rounded-xl  shadow-md overflow-hidden">
         <div className="w-full flex whitespace-nowrap overflow-hidden relative">
-          <div className="flex space-x-4 mr-1 animate-marquee">
+          <div className="flex space-x-4 cursor-pointer mr-1 animate-marquee">
             {[
               "ООП",
               "React",
@@ -62,91 +67,110 @@ const HomeComponents = () => {
         </h2>
         {/* Проект 1 */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
-          {/* Картинка */}
-          <div className="w-full md:w-1/2 h-80 bg-white rounded-xl shadow-lg overflow-hidden">
-            <div
-              className="h-full w-full bg-cover bg-center"
-              style={{
-                backgroundImage: "url(https://via.placeholder.com/400)",
-              }}
-            ></div>
+          {/* Картинка с текстом */}
+          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
+            <h2 className="text-5xl font-bold text-gray-600  uppercase">
+              InfoNews
+            </h2>
           </div>
           {/* Описание проекта */}
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Название проекта 1
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-900">InfoNews</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-              accusamus molestiae illo!
+              В этом проекте я получаю API. Там имеется погода, биржа и даже
+              мини игра.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 text-black border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group hover:bg-black hover:text-white">
-              Посмотреть проект
-              <span className="absolute left-0 top-0 w-0 h-full bg-black transition-all duration-300 group-hover:w-full"></span>
+            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="relative z-10 group-hover:text-white">
+                Посмотреть проект
+              </span>
             </button>
           </div>
         </div>
         {/* Проект 2 */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
-          {/* Картинка */}
-          <div className="w-full md:w-1/2 h-80 bg-white rounded-xl shadow-lg overflow-hidden">
-            <div
-              className="h-full w-full bg-cover bg-center"
-              style={{
-                backgroundImage: "url(https://via.placeholder.com/400)",
-              }}
-            ></div>
+          {/* Картинка с эффектом */}
+          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
+            <h2 className="text-5xl font-bold text-gray-600  uppercase">
+              Maryshop
+            </h2>
           </div>
           {/* Описание проекта */}
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Название проекта 2
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-900">Maryshop</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-              accusamus molestiae illo!
+              В этом проекте реализовано - корзина товаров. Тут есть и
+              регистрация, так же есть JSON-server. Добавление и удаление из
+              корзины товаров.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 text-black border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group hover:bg-black hover:text-white">
-              Посмотреть проект
-              <span className="absolute left-0 top-0 w-0 h-full bg-black transition-all duration-300 group-hover:w-full"></span>
+            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="relative z-10 group-hover:text-white">
+                Посмотреть проект
+              </span>
             </button>
           </div>
         </div>
         {/* Проект 3 */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
-          {/* Картинка */}
-          <div className="w-full md:w-1/2 h-80 bg-white rounded-xl shadow-lg overflow-hidden">
-            <div
-              className="h-full w-full bg-cover bg-center"
-              style={{
-                backgroundImage: "url(https://via.placeholder.com/400)",
-              }}
-            ></div>
+          {/* Картинка с эффектом */}
+          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
+            <h2 className="text-5xl font-bold text-gray-600 uppercase">
+              Green_pulse
+            </h2>
           </div>
           {/* Описание проекта */}
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
-            <h1 className="text-2xl font-bold text-gray-900">
-              Название проекта 3
-            </h1>
+            <h1 className="text-2xl font-bold text-gray-900">Green_pulse</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum
-              accusamus molestiae illo!
+              А в этом проекте, я с коллегой реализовываем информацию о
+              загрязнение воздуха.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 text-black border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group hover:bg-black hover:text-white">
-              Посмотреть проект
-              <span className="absolute left-0 top-0 w-0 h-full bg-black transition-all duration-300 group-hover:w-full"></span>
+            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="relative z-10 group-hover:text-white">
+                Посмотреть проект
+              </span>
             </button>
           </div>
         </div>
       </section>
-      <section className="w-full max-w-6xl py-20">
-        <h2 className="text-3xl font-bold text-gray-900 text-center">
-          Будущий стек
-        </h2>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Vue.js</span>
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Docker</span>
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Backend</span>
+      <section className="w-full max-w-6xl py-20 flex flex-col md:flex-row items-start">
+        {/* Левая часть с заголовком и описанием */}
+        <div className="md:w-2/5 pr-8">
+          <h2 className="text-4xl font-bold text-gray-900">Будущий стек.</h2>
+          <p className="text-lg text-gray-600 mt-4">
+            Я планирую освоить различные технологии, которые помогут мне
+            развиваться как разработчику.
+          </p>
+        </div>
+        {/* Правая часть с колонкой карточек */}
+        <div className="md:w-3/5 flex flex-col gap-8 mt-8 md:mt-0">
+          {/* Vue.js */}
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold text-gray-900">Vue.js</h3>
+            <p className="text-gray-600 mt-2">
+              Vue.js — это прогрессивный фреймворк для создания пользовательских
+              интерфейсов с гибкой архитектурой.
+            </p>
+          </div>
+          {/* Docker */}
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold text-gray-900">Docker</h3>
+            <p className="text-gray-600 mt-2">
+              Docker — это платформа, которая позволяет разработчикам
+              упаковывать, отправлять и запускать приложения в контейнерах.
+            </p>
+          </div>
+          {/* Backend */}
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h3 className="text-2xl font-bold text-gray-900">Backend</h3>
+            <p className="text-gray-600 mt-2">
+              Бэкенд-разработка включает в себя серверную логику, базы данных и
+              API, которые обеспечивают работу веб-приложений.
+            </p>
+          </div>
         </div>
       </section>
     </main>
