@@ -1,5 +1,14 @@
 "use client";
+
+import { useState } from "react";
+import NameInputModal from "../Modal/NameInputModal";
+
 const HomeComponents = () => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleClose = () => setOpenModal(false);
+
   return (
     <main className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-6">
       {/* Hero Section */}
@@ -20,7 +29,10 @@ const HomeComponents = () => {
             Начинающий программист, Frontend-разработчик. Этот проект моё
             портфолио. Тут я показываю чему я смог научиться.
           </p>
-          <button className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+          <button
+            onClick={handleOpenModal}
+            className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+          >
             <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
             <span className="relative z-10 group-hover:text-white">Начать</span>
           </button>
@@ -36,6 +48,11 @@ const HomeComponents = () => {
               "TypeScript",
               "TailwindCSS",
               "Redux",
+              "Material-ui",
+              "JavaScripts",
+              "Git",
+              "Rest API",
+              "HTML",
             ].map((item, index, arr) => (
               <p
                 key={index}
@@ -74,7 +91,7 @@ const HomeComponents = () => {
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">InfoNews</h1>
             <p className="mt-4 text-gray-600 text-lg">
               В этом проекте я получаю API. Там имеется погода, биржа и даже
@@ -97,7 +114,7 @@ const HomeComponents = () => {
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Maryshop</h1>
             <p className="mt-4 text-gray-600 text-lg">
               В этом проекте реализовано - корзина товаров. Тут есть и
@@ -121,7 +138,7 @@ const HomeComponents = () => {
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Green_pulse</h1>
             <p className="mt-4 text-gray-600 text-lg">
               А в этом проекте, я с коллегой реализовываем информацию о
@@ -129,7 +146,7 @@ const HomeComponents = () => {
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
-              <span className="relative z-10 group-hover:text-white">
+              <span className="relative з-10 group-hover:text-white">
                 Посмотреть проект
               </span>
             </button>
@@ -173,6 +190,7 @@ const HomeComponents = () => {
           </div>
         </div>
       </section>
+      <NameInputModal open={openModal} onClose={handleClose} />
     </main>
   );
 };
