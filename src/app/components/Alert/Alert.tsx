@@ -25,7 +25,7 @@ interface alertProps {
   title: string;
   subtitle: string;
   align?: "center"; 
-}
+};
 
 const Alert: React.FC<alertProps> = ({
   variant,
