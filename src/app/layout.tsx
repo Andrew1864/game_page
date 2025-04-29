@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import ReduxProvider from "./components/ReduxProvider/ReduxProvider";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -8,11 +9,6 @@ const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata: Metadata = {
   title: "Game_Page",
@@ -27,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`} ${inter.variable} antialiased`}>
-        <>
-          <Header />
-          {children}
-          <Footer />
-        </>
+        <ReduxProvider>
+          <>
+            <Header />
+            {children}
+            <Footer />
+          </>
+        </ReduxProvider>
       </body>
     </html>
   );
