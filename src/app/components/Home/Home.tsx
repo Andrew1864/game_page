@@ -1,13 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NameInputModal from "../Modal/NameInputModal";
+import ModalInfo from "../Modal/ModalInfo";
 
-const HomeComponents = () => {
+interface InfoItem {
+  id: number;
+  title: string;
+  description: string;
+  type: string;
+}
+
+const HomeComponents: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
+  const [infoData, setInfoData] = useState<InfoItem[]>([]);
+
+  // Загружаем данные из db.json
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/info");
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const data: InfoItem[] = await res.json();
+        if (data && Array.isArray(data)) {
+          setInfoData(data); // Сохраняем данные в состоянии
+        } else {
+          console.error("Ошибка: данные не являются массивом.");
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки данных:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleOpenModal = () => setOpenModal(true);
-  const handleClose = () => setOpenModal(false);
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setSelectedTech(null);
+  };
+
+  const handleTechClick = (techTitle: string) => {
+    const selected = infoData.find((item) => item.title === techTitle);
+    if (selected) {
+      setSelectedTech(selected); // Устанавливаем выбранный элемент
+    } else {
+      console.error(`Элемент с названием "${techTitle}" не найден.`);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-6">
@@ -38,27 +83,16 @@ const HomeComponents = () => {
           </button>
         </div>
       </section>
-      <section className="w-full py-10 rounded-xl  shadow-md overflow-hidden">
+      <section className="w-full py-10 rounded-xl shadow-md overflow-hidden">
         <div className="w-full flex whitespace-nowrap overflow-hidden relative">
           <div className="flex space-x-4 cursor-pointer mr-1 animate-marquee">
-            {[
-              "ООП",
-              "React",
-              "Next.js",
-              "TypeScript",
-              "TailwindCSS",
-              "Redux",
-              "Material-ui",
-              "JavaScripts",
-              "Git",
-              "Rest API",
-              "HTML",
-            ].map((item, index, arr) => (
+            {infoData.map((item) => (
               <p
-                key={index}
+                key={item.id}
                 className="text-3xl font-bold text-gray-900 ml-1 hover:text-indigo-600 transition px-4"
+                onClick={() => handleTechClick(item.title)}
               >
-                {item} {index !== arr.length - 1 && " •"}
+                {item.title}
               </p>
             ))}
           </div>
@@ -86,12 +120,12 @@ const HomeComponents = () => {
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
           {/* Картинка с текстом */}
           <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
-            <h2 className="text-5xl font-bold text-gray-600  uppercase">
+            <h2 className="text-5xl font-bold text-gray-600 uppercase">
               InfoNews
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">InfoNews</h1>
             <p className="mt-4 text-gray-600 text-lg">
               В этом проекте я получаю API. Там имеется погода, биржа и даже
@@ -109,12 +143,12 @@ const HomeComponents = () => {
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
           {/* Картинка с эффектом */}
           <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
-            <h2 className="text-5xl font-bold text-gray-600  uppercase">
+            <h2 className="text-5xl font-bold text-gray-600 uppercase">
               Maryshop
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Maryshop</h1>
             <p className="mt-4 text-gray-600 text-lg">
               В этом проекте реализовано - корзина товаров. Тут есть и
@@ -138,7 +172,7 @@ const HomeComponents = () => {
             </h2>
           </div>
           {/* Описание проекта */}
-          <div className="w-full md:w-1/2 текст-центр md:text-left mt-6 md:mt-0">
+          <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Green_pulse</h1>
             <p className="mt-4 text-gray-600 text-lg">
               А в этом проекте, я с коллегой реализовываем информацию о
@@ -153,44 +187,14 @@ const HomeComponents = () => {
           </div>
         </div>
       </section>
-      <section className="w-full max-w-6xl py-20 flex flex-col md:flex-row items-start">
-        {/* Левая часть с заголовком и описанием */}
-        <div className="md:w-2/5 pr-8">
-          <h2 className="text-4xl font-bold text-gray-900">Будущий стек.</h2>
-          <p className="text-lg text-gray-600 mt-4">
-            Я планирую освоить различные технологии, которые помогут мне
-            развиваться как разработчику.
-          </p>
-        </div>
-        {/* Правая часть с колонкой карточек */}
-        <div className="md:w-3/5 flex flex-col gap-8 mt-8 md:mt-0">
-          {/* Vue.js */}
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-bold text-gray-900">Vue.js</h3>
-            <p className="text-gray-600 mt-2">
-              Vue.js — это прогрессивный фреймворк для создания пользовательских
-              интерфейсов с гибкой архитектурой.
-            </p>
-          </div>
-          {/* Docker */}
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-bold text-gray-900">Docker</h3>
-            <p className="text-gray-600 mt-2">
-              Docker — это платформа, которая позволяет разработчикам
-              упаковывать, отправлять и запускать приложения в контейнерах.
-            </p>
-          </div>
-          {/* Backend */}
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h3 className="text-2xl font-bold text-gray-900">Backend</h3>
-            <p className="text-gray-600 mt-2">
-              Бэкенд-разработка включает в себя серверную логику, базы данных и
-              API, которые обеспечивают работу веб-приложений.
-            </p>
-          </div>
-        </div>
-      </section>
       <NameInputModal open={openModal} onClose={handleClose} />
+      {selectedTech && (
+        <ModalInfo
+          title={selectedTech.title}
+          description={selectedTech.description}
+          onClose={handleClose}
+        />
+      )}
     </main>
   );
 };
