@@ -1,8 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { RootState } from "@/app/slices/Store";
+import { initializeFromLocalStorage } from "@/app/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   const [activePage, setActivePage] = useState("about");
+
+  const dispatch = useDispatch();
+
+  const hrName = useSelector((state: RootState) => state.user.name);
+
+  // Восстанавливаем данные из localStorage при первой загрузке
+  useEffect(() => {
+    dispatch(initializeFromLocalStorage())
+  },[dispatch]);
 
   const menuItems = [
     { name: "Обо мне", id: "about" },
@@ -44,6 +56,11 @@ const Header = () => {
             ))}
           </ul>
         </nav>
+        <div className="ml-auto flex items-center gap-4">
+            <span className="text-xl font-bold text-black">
+                {hrName}
+            </span>
+        </div>
       </div>
     </header>
   );
