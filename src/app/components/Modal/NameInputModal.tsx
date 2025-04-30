@@ -1,4 +1,12 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
+import {
+  setAchievements,
+  setName,
+  setProgress,
+  setUserId,
+} from "@/app/slices/userSlice";
+import Alert from "../Alert/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -22,41 +30,100 @@ const style = {
 interface NameInputModalProps {
   open: boolean;
   onClose: () => void;
-};
+}
 
 const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
+  const [name, setNameInput] = React.useState("");
+  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
+  const dispatch = useDispatch(); // Используем Redux dispatch
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNameInput(event.target.value); // Обновляем локальное состояние
+  };
+
+  const handleSubmit = async () => {
+    if (name.trim() === "") {
+      alert("Пожалуйста, введите имя.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:3001/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          progress: 10,
+          achievements: [
+            {
+              id: 1,
+              title: "Первая ачивка",
+              description: "Вы ввели имя!",
+              completed: true,
+            },
+          ],
+        }),
+      });
+
+      const newUser = await response.json();
+
+      dispatch(setName(newUser.name));
+      dispatch(setUserId(newUser.id));
+      dispatch(setProgress(newUser.progress));
+      dispatch(setAchievements(newUser.achievements));
+      setIsAlertOpen(true);
+      onClose();
+    } catch (error) {
+      console.error("Ошибка при создании пользователя:", error);
+      alert("Произошла ошибка при сохранении данных.");
+    }
+  };
+
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Введите свое имя
-        </Typography>
-        <TextField
-          id="modal-modal-input"
-          label="Имя"
-          variant="outlined"
-          fullWidth
-          sx={{ mt: 2, mb: 2 }}
-        />
-        <Button
-          variant="contained"
-          onClick={onClose}
-          sx={{
-            borderRadius: "1rem",
-            mt: 2,
-            bgcolor: "darkgrey",
-            color: "white",
-          }}
-        >
-          Подтвердить
-        </Button>
-      </Box>
-    </Modal>
+    <>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Введите свое имя
+          </Typography>
+          <TextField
+            id="modal-modal-input"
+            label="Имя"
+            variant="outlined"
+            fullWidth
+            sx={{ mt: 2, mb: 2 }}
+            value={name}
+            onChange={handleNameChange}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{
+              borderRadius: "1rem",
+              mt: 2,
+              bgcolor: "darkgrey",
+              color: "white",
+            }}
+          >
+            Подтвердить
+          </Button>
+        </Box>
+      </Modal>
+      <Alert
+        variant="success"
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Поздравляем!"
+        subtitle="Вы получили первую ачивку и +10 очков! "
+      />
+    </>
   );
 };
 
