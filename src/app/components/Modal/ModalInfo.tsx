@@ -3,16 +3,17 @@
 import React from "react";
 
 interface ModalInfoProps {
-  title: string; // Заголовок модального окна
-  description: string; // Текст описания
-  onClose: () => void; // Функция для закрытия модального окна
-}
+  title: string;
+  description: string;
+  onClose: () => void;
+};
 
 const ModalInfo: React.FC<ModalInfoProps> = ({
   title,
   description,
   onClose,
 }) => {
+  
   const handleClickOutside = (event: React.MouseEvent) => {
     if ((event.target as Element).classList.contains("modal-overlay")) {
       onClose(); // Закрываем окно при клике на фон
@@ -21,7 +22,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-50 modal-overlay  bg-opacity-20"
+      className="fixed inset-0 flex items-center justify-center z-50 modal-overlay bg-opacity-20"
       onClick={handleClickOutside}
     >
       <div className="bg-white p-6 rounded-xl w-[90%] sm:w-[400px] text-center border border-gray-300">
