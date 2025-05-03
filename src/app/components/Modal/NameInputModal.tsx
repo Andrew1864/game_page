@@ -5,6 +5,7 @@ import {
   setName,
   setProgress,
   setUserId,
+  updateAchievements,
 } from "@/app/slices/userSlice";
 import Alert from "../Alert/Alert";
 import Box from "@mui/material/Box";
@@ -59,7 +60,7 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
           achievements: [
             {
               id: 1,
-              title: "Первая ачивка",
+              title: "Написал имя",
               description: "Вы ввели имя!",
               completed: true,
             },
@@ -70,6 +71,7 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
       const newUser = await response.json();
 
       dispatch(setName(newUser.name));
+      dispatch(updateAchievements("Написал имя"))
       dispatch(setUserId(newUser.id));
       dispatch(setProgress(newUser.progress));
       dispatch(setAchievements(newUser.achievements));
