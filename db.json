@@ -68,19 +68,7 @@
     }
   ],
   "users": [
-    {
-      "id": "b9a1",
-      "name": "Андрей",
-      "progress": 10,
-      "achievements": [
-        {
-          "id": 1,
-          "title": "Первая ачивка",
-          "description": "Вы ввели имя!",
-          "completed": true
-        }
-      ]
-    }
+   
   ],
   "comments": []
 }

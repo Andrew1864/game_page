@@ -38,6 +38,15 @@ const userSlice = createSlice({
         }
       }
     },
+    clearUserData: (state) => {
+      state.name = "";
+      state.userId = null;
+      state.progress = 0;
+      state.achievements = [];
+      if (typeof window !== "undefined"){
+        localStorage.clear();
+      }
+    },
   },
 });
 
@@ -48,6 +57,7 @@ export const {
   setAchievements,
   toggleModal,
   initializeFromLocalStorage,
+  clearUserData,
 } = userSlice.actions;
 
 export default userSlice.reducer;

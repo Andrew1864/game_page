@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { RootState } from "@/app/slices/Store";
-import { initializeFromLocalStorage } from "@/app/slices/userSlice";
+import {
+  initializeFromLocalStorage,
+  clearUserData,
+} from "@/app/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
@@ -17,6 +20,10 @@ const Header = () => {
   useEffect(() => {
     dispatch(initializeFromLocalStorage());
   }, [dispatch]);
+
+  const handleLogout = () => {
+    dispatch(clearUserData());
+  };
 
   const menuItems = [
     { name: "Обо мне", id: "about", href: "/" },
@@ -62,7 +69,13 @@ const Header = () => {
         </nav>
         {/* Имя HR */}
         <div className="ml-auto flex items-center gap-4">
-          <span className="text-xl font-bold text-black">{hrName}</span>
+          <span
+            onClick={handleLogout}
+            className="text-xl font-bold text-black cursor-pointer"
+            title="Выйти из Аккаунта"
+          >
+            {hrName}
+          </span>
         </div>
       </div>
     </header>
