@@ -187,6 +187,16 @@ const HomeComponents: React.FC = () => {
           </div>
         </div>
       </section>
+      <section className="w-full max-w-6xl py-20">
+        <h2 className="text-3xl font-bold text-gray-900 text-center">
+          Будущий стек
+        </h2>
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <span className="px-4 py-2 bg-gray-300 rounded-lg">Vue.js</span>
+          <span className="px-4 py-2 bg-gray-300 rounded-lg">Docker</span>
+          <span className="px-4 py-2 bg-gray-300 rounded-lg">Backend</span>
+        </div>
+      </section>
       <NameInputModal open={openModal} onClose={handleClose} />
       {selectedTech && (
         <ModalInfo
