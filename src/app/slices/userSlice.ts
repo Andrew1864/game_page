@@ -13,6 +13,7 @@ interface UserState {
   userId: number | null;
   progress: number;
   achievements: Achievement[];
+  clickedTechs: string[];
   isModalOpen: boolean;
 }
 
@@ -22,6 +23,7 @@ const initialState: UserState = {
   userId: null,
   progress: 0,
   achievements: [],
+  clickedTechs: [],
   isModalOpen: false,
 };
 
@@ -43,6 +45,11 @@ const userSlice = createSlice({
     },
     setAchievements: (state, action: PayloadAction<Achievement[]>) => {
       state.achievements = action.payload;
+    },
+    addClickedTech: (state, action: PayloadAction<string>) => {
+      if (!state.clickedTechs.includes(action.payload)) {
+        state.clickedTechs.push(action.payload);
+      }
     },
     toggleModal: (state) => {
       state.isModalOpen = !state.isModalOpen;
@@ -67,6 +74,7 @@ const userSlice = createSlice({
       state.userId = null;
       state.progress = 0;
       state.achievements = [];
+      state.clickedTechs = [];
       if (typeof window !== "undefined") {
         localStorage.clear();
       }
@@ -79,6 +87,7 @@ export const {
   setUserId,
   setProgress,
   setAchievements,
+  addClickedTech,
   toggleModal,
   initializeFromLocalStorage,
   clearUserData,
