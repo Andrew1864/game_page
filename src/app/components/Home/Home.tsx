@@ -1,8 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
+import Alert from "../Alert/Alert";
+import {
+  setAchievements,
+  setProgress,
+  updateAchievements,
+} from "@/app/slices/userSlice";
+import store from "@/app/slices/Store";
 
 interface InfoItem {
   id: number;
@@ -13,8 +21,10 @@ interface InfoItem {
 
 const HomeComponents: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
   const [infoData, setInfoData] = useState<InfoItem[]>([]);
+  const dispatch = useDispatch();
 
   // Загружаем данные из db.json
   useEffect(() => {
@@ -38,6 +48,44 @@ const HomeComponents: React.FC = () => {
     fetchData();
   }, []);
 
+  const handleSubmitClick = async (techTitle: string) => {
+    const state = store.getState();
+    const userId = state.user.userId;
+    const newAchievement = {
+      title: `Узнал про ${techTitle}`,
+      points: 10,
+      date: new Date().toISOString(),
+      completed: true,
+    };
+
+    if (userId) {
+      try {
+        const res = await fetch(`http://localhost:3001/users/${userId}`);
+        const user = await res.json();
+
+        const updatedAchievements = [...user.achievements, newAchievement];
+
+        await fetch(`http://localhost:3001/users/${userId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            progress: user.progress + 10,
+            achievements: updatedAchievements,
+          }),
+        });
+
+        dispatch(updateAchievements(newAchievement.title));
+        dispatch(setProgress(user.progress + 10));
+        dispatch(setAchievements(updatedAchievements));
+        setIsAlertOpen(true);
+      } catch (error) {
+        console.error("Ошибка обновления:", error);
+      }
+    }
+  };
+
   const handleOpenModal = () => setOpenModal(true);
 
   const handleClose = () => {
@@ -49,6 +97,7 @@ const HomeComponents: React.FC = () => {
     const selected = infoData.find((item) => item.title === techTitle);
     if (selected) {
       setSelectedTech(selected); // Устанавливаем выбранный элемент
+      handleSubmitClick(techTitle); // сохраняем ачивку
     } else {
       console.error(`Элемент с названием "${techTitle}" не найден.`);
     }
@@ -83,6 +132,7 @@ const HomeComponents: React.FC = () => {
           </button>
         </div>
       </section>
+      {/* сюда нужно добавить handleSubmitClick*/}
       <section className="w-full py-10 rounded-xl shadow-md overflow-hidden">
         <div className="w-full flex whitespace-nowrap overflow-hidden relative">
           <div className="flex space-x-4 cursor-pointer mr-1 animate-marquee">
@@ -205,6 +255,13 @@ const HomeComponents: React.FC = () => {
           onClose={handleClose}
         />
       )}
+      <Alert
+        variant="success"
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Поздравляем!"
+        subtitle="Вы получили ачивку и +10 очков! "
+      />
     </main>
   );
 };

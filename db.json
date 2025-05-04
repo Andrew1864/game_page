@@ -56,7 +56,7 @@
     },
     {
       "id": "10",
-      "title": "REST API",
+      "title": "RestAPI",
       "description": "Стиль архитектуры взаимодействия клиента и сервера через HTTP.",
       "type": "tech"
     },
@@ -68,7 +68,6 @@
     }
   ],
   "users": [
-   
   ],
   "comments": []
 }

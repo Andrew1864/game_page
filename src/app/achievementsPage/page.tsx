@@ -6,58 +6,49 @@ import CelebrationIcon from "@mui/icons-material/Celebration";
 import AchievementCard from "../components/Card/AchievementCard";
 
 const items = [
-  { title: "Написал имя", subtitle: "Начни игру", completed: false },
-  { title: "Узнал про ООП", subtitle: "Кликни по ООП", completed: false },
-  { title: "Узнал про React", subtitle: "Кликни по React", completed: false },
-  { title: "Узнал про Next", subtitle: "Кликни по Next", completed: false },
+  { title: "Написал имя", subtitle: "Начни игру" },
+  { title: "Узнал про ООП", subtitle: "Кликни по ООП" },
+  { title: "Узнал про React", subtitle: "Кликни по React" },
+  { title: "Узнал про Next.js", subtitle: "Кликни по Next.js" },
   {
-    title: "Узнал про TypeScripts",
-    subtitle: "Кликни по TypeScripts",
-    completed: false,
+    title: "Узнал про TypeScript",
+    subtitle: "Кликни по TypeScript",
   },
   {
-    title: "Узнал про TailwindSCC",
-    subtitle: "Кликни по TailwindSCC",
-    completed: false,
+    title: "Узнал про TailwindCSS",
+    subtitle: "Кликни по TailwindCSS",
   },
-  { title: "Узнал про Redux", subtitle: "Кликни по Redux", completed: false },
+  { title: "Узнал про Redux", subtitle: "Кликни по Redux" },
   {
-    title: "Узнал про MaterialUi",
-    subtitle: "Кликни по MaterialUi",
-    completed: false,
-  },
+    title: "Узнал про Material-UI", subtitle: "Кликни по MaterialUi",},
   {
-    title: "Узнал про JavaScripts",
-    subtitle: "Кликни по JavaScripts",
-    completed: false,
+    title: "Узнал про JavaScript",
+    subtitle: "Кликни по JavaScript",
   },
-  { title: "Узнал про Git", subtitle: "Кликни по Git", completed: false },
+  { title: "Узнал про Git", subtitle: "Кликни по Git" },
   {
-    title: "Узнал про Rest API",
-    subtitle: "Кликни по Rest API",
-    completed: false,
+    title: "Узнал про RestAPI",
+    subtitle: "Кликни по RestAPI",
   },
-  { title: "Узнал про HTML", subtitle: "Кликни по HTML", completed: false },
-  { title: "InfoNews", subtitle: "Зайди в InfoNews", completed: false },
-  { title: "Maryshop", subtitle: "Зайди Maryshop", completed: false },
-  { title: "Green_pulse", subtitle: "Зайди Green_pulse", completed: false },
-  { title: "Комментарий", subtitle: "Написать комментарий", completed: false },
+  { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
+  { title: "InfoNews", subtitle: "Зайди в InfoNews" },
+  { title: "Maryshop", subtitle: "Зайди Maryshop" },
+  { title: "Green_pulse", subtitle: "Зайди Green_pulse" },
+  { title: "Комментарий", subtitle: "Написать комментарий" },
 ];
 
 const AchievementsPage = () => {
   const hrName = useSelector((state: RootState) => state.user.name);
-  const achievements = useSelector(
+  const userAchievements = useSelector(
     (state: RootState) => state.user.achievements
   );
-  const totalPoints = achievements.filter((e) => e.completed).length * 10;
 
-  const mergedItems = items.map((item) => {
-    const achievement = achievements.find((a) => a.title === item.title);
-    return {
-      ...item,
-      completed: achievement ? achievement.completed : false,
-    };
-  });
+  const totalPoints = useSelector((state: RootState) => state.user.progress);
+
+  const mergedItems = items.map((item) => ({
+    ...item,
+    completed: userAchievements.some((ach) => ach.title === item.title),
+  }));
 
   return (
     <>
