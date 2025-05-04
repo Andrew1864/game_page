@@ -20,7 +20,9 @@ const items = [
   },
   { title: "Узнал про Redux", subtitle: "Кликни по Redux" },
   {
-    title: "Узнал про Material-UI", subtitle: "Кликни по MaterialUi",},
+    title: "Узнал про Material-UI",
+    subtitle: "Кликни по MaterialUi",
+  },
   {
     title: "Узнал про JavaScript",
     subtitle: "Кликни по JavaScript",

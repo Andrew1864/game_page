@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
 import Alert from "../Alert/Alert";
 import {
   setAchievements,
   setProgress,
+  addClickedTech,
   updateAchievements,
 } from "@/app/slices/userSlice";
-import store from "@/app/slices/Store";
+import { RootState } from "@/app/slices/Store";
 
 interface InfoItem {
   id: number;
@@ -25,6 +26,11 @@ const HomeComponents: React.FC = () => {
   const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
   const [infoData, setInfoData] = useState<InfoItem[]>([]);
   const dispatch = useDispatch();
+
+  const userId = useSelector((state: RootState) => state.user.userId); // Получаем userId из Redux для проверки регистрации
+  const clickedTechs = useSelector(
+    (state: RootState) => state.user.clickedTechs
+  ); // Получаем список нажатых технологий из Redux
 
   // Загружаем данные из db.json
   useEffect(() => {
@@ -49,8 +55,6 @@ const HomeComponents: React.FC = () => {
   }, []);
 
   const handleSubmitClick = async (techTitle: string) => {
-    const state = store.getState();
-    const userId = state.user.userId;
     const newAchievement = {
       title: `Узнал про ${techTitle}`,
       points: 10,
@@ -86,7 +90,12 @@ const HomeComponents: React.FC = () => {
     }
   };
 
-  const handleOpenModal = () => setOpenModal(true);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    if (!clickedTechs.includes("Начать")) {
+      dispatch(addClickedTech("Начать"));
+    }
+  };
 
   const handleClose = () => {
     setOpenModal(false);
@@ -98,6 +107,7 @@ const HomeComponents: React.FC = () => {
     if (selected) {
       setSelectedTech(selected); // Устанавливаем выбранный элемент
       handleSubmitClick(techTitle); // сохраняем ачивку
+      dispatch(addClickedTech(techTitle)); // Добавляем технологию в Redux
     } else {
       console.error(`Элемент с названием "${techTitle}" не найден.`);
     }
@@ -128,18 +138,30 @@ const HomeComponents: React.FC = () => {
             className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
           >
             <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
-            <span className="relative z-10 group-hover:text-white">Начать</span>
+            <span
+              className={`relative z-10  ${
+                userId && clickedTechs.includes("Начать")
+                  ? "text-green-600"
+                  : "group-hover:text-white"
+              }`}
+            >
+              Начать
+            </span>
           </button>
         </div>
       </section>
-      {/* сюда нужно добавить handleSubmitClick*/}
+      {/* Технологии */}
       <section className="w-full py-10 rounded-xl shadow-md overflow-hidden">
         <div className="w-full flex whitespace-nowrap overflow-hidden relative">
           <div className="flex space-x-4 cursor-pointer mr-1 animate-marquee">
             {infoData.map((item) => (
               <p
                 key={item.id}
-                className="text-3xl font-bold text-gray-900 ml-1 hover:text-indigo-600 transition px-4"
+                className={`text-3xl font-bold ml-1 transition px-4 ${
+                  userId && clickedTechs.includes(item.title)
+                    ? "text-green-600"
+                    : "text-gray-900 hover:text-indigo-600"
+                }`}
                 onClick={() => handleTechClick(item.title)}
               >
                 {item.title}
