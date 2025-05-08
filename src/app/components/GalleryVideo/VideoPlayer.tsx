@@ -2,15 +2,19 @@
 
 import { useRef } from "react";
 
-const VideoPlayer = () => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+interface VideoPlayerProps {
+  videos: string[]; // Массив ссылок на видео
+}
+
+const VideoPlayer = ({ videos }: VideoPlayerProps) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null); // Ссылка на iframe
 
   return (
-    <div className="flex justify-center items-center px-4 py-8">
-      <div className="relative w-[900px] h-[500px]">
+    <div className="flex justify-center items-center px-4">
+      <div className="relative w-[1050px] h-[500px]">
         <iframe
           ref={iframeRef}
-          src="https://drive.google.com/file/d/11QVSCXkcemfz4ySJlLZpqtZ-BrE2n8Rs/preview"
+          src={videos[0]} // Отображение первого видео из массива
           allow="autoplay"
           className="w-full h-full rounded-lg shadow-lg border border-gray-300"
         ></iframe>

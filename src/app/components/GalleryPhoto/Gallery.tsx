@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 
-const Gallery = () => {
-  const screenShots = [
-    "https://i.imgur.com/2M7wfwY.png",
-    "https://i.imgur.com/VB5v73g.png",
-    "https://i.imgur.com/QrnMHP4.png",
-    "https://i.imgur.com/DFdxb10.png",
-    "https://i.imgur.com/0UwEGoZ.png",
-  ];
+interface GalleryProps {
+  screenshots: string[]; // Массив ссылок на скриншоты
+}
 
+const Gallery = ({ screenshots }: GalleryProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
 
@@ -28,7 +24,7 @@ const Gallery = () => {
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold mb-6">Скриншоты проекта.</h2>
       <div className="flex gap-8 overflow-x-auto">
-        {screenShots.map((screenshot, index) => (
+        {screenshots.map((screenshot, index) => (
           <img
             key={index}
             src={screenshot}
