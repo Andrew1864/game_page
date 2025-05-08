@@ -206,7 +206,10 @@ const HomeComponents: React.FC = () => {
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
-              <Link href="/InfoNews" className="relative z-10 group-hover:text-white">
+              <Link
+                href="/InfoNews"
+                className="relative z-10 group-hover:text-white"
+              >
                 Посмотреть проект
               </Link>
             </button>
