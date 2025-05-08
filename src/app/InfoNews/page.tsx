@@ -4,6 +4,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import Gallery from "../components/GalleryPhoto/Gallery";
+import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 
 const infoNews = () => {
   return (
@@ -13,17 +14,11 @@ const infoNews = () => {
           <div className="flex flex-wrap -mx-4">
             {/* Левая часть с изображениями */}
             <div className="w-full md:w-1/2 px-4 mb-8">
-              <img
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHwxfHxoZWFkcGhvbmV8ZW58MHwwfHx8MTcyMTMwMzY5MHww&ixlib=rb-4.0.3&q=80&w=1080"
-                alt="Product"
-                className="w-full h-auto rounded-lg shadow-md mb-4"
-                id="mainImage"
-              ></img>
+              <VideoPlayer />
               <div className="flex gap-4 py-4 justify-center overflow-x-auto">
                 <Gallery />
               </div>
             </div>
-
             {/* Правая часть с текстом */}
             <div className="w-full md:w-1/2 px-4">
               <h2 className="text-3xl font-bold mb-4">InfoNews</h2>
