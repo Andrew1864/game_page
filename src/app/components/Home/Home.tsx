@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
 import Alert from "../Alert/Alert";
+import FutureStack from "../FutureStack/FutureStack";
 import {
   setAchievements,
   setProgress,
@@ -269,16 +270,24 @@ const HomeComponents: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="w-full max-w-6xl py-20">
-        <h2 className="text-3xl font-bold text-gray-900 text-center">
-          Будущий стек
+      <section className="w-full max-w-[1260px] mx-auto py-20">
+       {/* <h2 className="text-4xl font-extrabold text-center text-gray-600 mb-12"> 
+          Будущий стек для изучения.
         </h2>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Vue.js</span>
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Docker</span>
-          <span className="px-4 py-2 bg-gray-300 rounded-lg">Backend</span>
-        </div>
+        <div className="flex flex-wrap justify-center gap-6">
+          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
+            <span className="text-xl text-white font-semibold">Vue.js</span>
+          </div>
+          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
+            <span className="text-xl text-white font-semibold">Docker</span>
+          </div>
+          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
+            <span className="text-xl text-white font-semibold">Backend</span>
+          </div>
+        </div>*/}
+        <FutureStack />
       </section>
+
       <NameInputModal open={openModal} onClose={handleClose} />
       {selectedTech && (
         <ModalInfo
