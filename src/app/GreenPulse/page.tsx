@@ -1,14 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
+import { useState, useEffect } from "react";
 
 const GreenPulse = () => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("GreenPulseVisited");
+
+    if (!hasVisited) {
+      setIsAlertOpen(true);
+    }
+
+    localStorage.setItem("GreenPulseVisited", "true");
+  }, []);
+
   const infoNewsScreenshots = [
     "https://i.imgur.com/JLDP6fr.png",
     "https://i.imgur.com/oCka4yv.png",
@@ -98,6 +111,13 @@ const GreenPulse = () => {
           </div>
         </div>
       </div>
+      <Alert
+        variant="success"
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Поздравляем!"
+        subtitle="Вы получили ачивку и +10 очков! "
+      />
     </>
   );
 };

@@ -5,10 +5,24 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
+import { useState, useEffect } from "react";
 
 const Maryshop = () => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("MaryshopVisited");
+
+    if (!hasVisited) {
+      setIsAlertOpen(true);
+    }
+
+    localStorage.setItem("MaryshopVisited", "true");
+  }, []);
+
   const maryshopScreenshots = [
     "https://i.imgur.com/mBHNHXk.png",
     "https://i.imgur.com/A2XEm8n.png",
@@ -92,6 +106,13 @@ const Maryshop = () => {
           </div>
         </div>
       </div>
+      <Alert
+        variant="success"
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Поздравляем!"
+        subtitle="Вы получили ачивку и +10 очков! "
+      />
     </>
   );
 };

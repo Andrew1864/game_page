@@ -5,10 +5,24 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
+import { useEffect, useState } from "react";
 
 const InfoNews = () => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem("InfoNewsVisited");
+
+    if (!hasVisited) {
+      setIsAlertOpen(true);
+    }
+
+    localStorage.setItem("InfoNewsVisited", "true");
+  }, []);
+
   const infoNewsScreenshots = [
     "https://i.imgur.com/2M7wfwY.png",
     "https://i.imgur.com/VB5v73g.png",
@@ -93,6 +107,13 @@ const InfoNews = () => {
           </div>
         </div>
       </div>
+      <Alert
+        variant="success"
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        title="Поздравляем!"
+        subtitle="Вы получили ачивку и +10 очков! "
+      />
     </>
   );
 };
