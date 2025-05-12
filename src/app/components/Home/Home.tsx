@@ -57,8 +57,20 @@ const HomeComponents: React.FC = () => {
   }, []);
 
   const handleSubmitClick = async (techTitle: string) => {
+    let achievementTitle;
+
+    if (
+      techTitle === "InfoNews" ||
+      techTitle === "Maryshop" ||
+      techTitle === "Green_pulse"
+    ) {
+      achievementTitle = `Зашёл в ${techTitle}`;
+    } else {
+      achievementTitle = `Узнал про ${techTitle}`;
+    }
+
     const newAchievement = {
-      title: `Узнал про ${techTitle}`,
+      title: achievementTitle,
       points: 10,
       date: new Date().toISOString(),
       completed: true,
@@ -71,6 +83,7 @@ const HomeComponents: React.FC = () => {
 
         const updatedAchievements = [...user.achievements, newAchievement];
 
+        // Отправляем обновления на сервер
         await fetch(`http://localhost:3001/users/${userId}`, {
           method: "PATCH",
           headers: {
@@ -82,9 +95,9 @@ const HomeComponents: React.FC = () => {
           }),
         });
 
-        dispatch(updateAchievements(newAchievement.title));
-        dispatch(setProgress(user.progress + 10));
-        dispatch(setAchievements(updatedAchievements));
+        // Обновляем Redux Store
+        dispatch(setAchievements(updatedAchievements)); // Обновляем весь список достижений
+        dispatch(setProgress(user.progress + 10)); // Обновляем прогресс
         setIsAlertOpen(true);
       } catch (error) {
         console.error("Ошибка обновления:", error);
@@ -209,7 +222,14 @@ const HomeComponents: React.FC = () => {
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
               <Link
                 href="/InfoNews"
-                className="relative z-10 group-hover:text-white"
+                onClick={() => {
+                  handleSubmitClick("InfoNews");
+                }}
+                className={`relative z-10 ${
+                  clickedTechs.includes("InfoNews")
+                    ? "text-green-600"
+                    : "group-hover:text-white"
+                }`}
               >
                 Посмотреть проект
               </Link>
@@ -236,7 +256,14 @@ const HomeComponents: React.FC = () => {
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
               <Link
                 href="/Maryshop"
-                className="relative z-10 group-hover:text-white"
+                onClick={() => {
+                  handleSubmitClick("Maryshop");
+                }}
+                className={`relative z-10 ${
+                  clickedTechs.includes("Maryshop")
+                    ? "text-green-600"
+                    : "group-hover:text-white"
+                }`}
               >
                 Посмотреть проект
               </Link>
@@ -262,7 +289,14 @@ const HomeComponents: React.FC = () => {
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
               <Link
                 href="/GreenPulse"
-                className="relative з-10 group-hover:text-white"
+                onClick={() => {
+                  handleSubmitClick("Green_pulse");
+                }}
+                className={`relative z-10 ${
+                  clickedTechs.includes("Green_pulse")
+                    ? "text-green-600"
+                    : "group-hover:text-white"
+                }`}
               >
                 Посмотреть проект
               </Link>
@@ -271,23 +305,8 @@ const HomeComponents: React.FC = () => {
         </div>
       </section>
       <section className="w-full max-w-[1260px] mx-auto py-20">
-       {/* <h2 className="text-4xl font-extrabold text-center text-gray-600 mb-12"> 
-          Будущий стек для изучения.
-        </h2>
-        <div className="flex flex-wrap justify-center gap-6">
-          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
-            <span className="text-xl text-white font-semibold">Vue.js</span>
-          </div>
-          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
-            <span className="text-xl text-white font-semibold">Docker</span>
-          </div>
-          <div className="w-[380px] h-[200px] bg-[#1f1f1f] rounded-2xl shadow-lg flex items-center justify-center hover:scale-105 transition-transform">
-            <span className="text-xl text-white font-semibold">Backend</span>
-          </div>
-        </div>*/}
         <FutureStack />
       </section>
-
       <NameInputModal open={openModal} onClose={handleClose} />
       {selectedTech && (
         <ModalInfo
