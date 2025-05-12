@@ -33,9 +33,9 @@ const items = [
     subtitle: "Кликни по RestAPI",
   },
   { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
-  { title: "InfoNews", subtitle: "Зайди в InfoNews" },
-  { title: "Maryshop", subtitle: "Зайди Maryshop" },
-  { title: "Green_pulse", subtitle: "Зайди Green_pulse" },
+  { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews" },
+  { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop" },
+  { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse" },
   { title: "Комментарий", subtitle: "Написать комментарий" },
 ];
 
