@@ -34,8 +34,11 @@ const items = [
   },
   { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
   { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews" },
+  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в InfoNews"},
   { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop" },
+  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в Maryshop"},
   { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse" },
+  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в Green_pulse"},
   { title: "Комментарий", subtitle: "Написать комментарий" },
 ];
 
@@ -71,7 +74,7 @@ const AchievementsPage = () => {
           </div>
         </div>
         <div className="w-full border-b border-gray-300 mt-6"></div>
-        <h4 className="mb-2 text-2xl font-bold">Список достижений.</h4>
+        <h4 className="mb-2 text-2xl  font-extrabold">Список достижений.</h4>
         <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mergedItems.map((item, index) => (
             <AchievementCard
