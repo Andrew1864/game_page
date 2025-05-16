@@ -7,20 +7,35 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
+import { RootState } from "../slices/Store";
+import { addClickedTech } from "../slices/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
 const GreenPulse = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
+  const userId = useSelector((state: RootState) => state.user.userId);
+  const achievements = useSelector(
+    (state: RootState) => state.user.achievements
+  );
+  const clickedTechs = useSelector(
+    (state: RootState) => state.user.clickedTechs
+  );
+  const dispatch = useDispatch();
   useEffect(() => {
-    const hasVisited = localStorage.getItem("GreenPulseVisited");
+    if (userId) {
+      const hasAchievements = achievements.some(
+        (ach) => ach.title === "Green_pulse"
+      );
 
-    if (!hasVisited) {
-      setIsAlertOpen(true);
+      const hasClicked = clickedTechs.includes("Green_pulse");
+      if (!hasAchievements && !hasClicked) {
+        setIsAlertOpen(true);
+        dispatch(addClickedTech("Green_pulse"));
+      }
     }
-
-    localStorage.setItem("GreenPulseVisited", "true");
-  }, []);
+  }, [userId, achievements, clickedTechs, dispatch]);
 
   const infoNewsScreenshots = [
     "https://i.imgur.com/JLDP6fr.png",
