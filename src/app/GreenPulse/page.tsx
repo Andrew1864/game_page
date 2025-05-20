@@ -8,7 +8,12 @@ import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
-import { addClickedTech } from "../slices/userSlice";
+import {
+  addClickedTech,
+  setAchievements,
+  setProgress,
+} from "../slices/userSlice";
+import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -23,6 +28,9 @@ const GreenPulse = () => {
     (state: RootState) => state.user.clickedTechs
   );
   const dispatch = useDispatch();
+  const hasLiked = clickedTechs.includes("Green_pulse_like");
+  const hasDisliked = clickedTechs.includes("Green_pulse_dislike");
+
   useEffect(() => {
     if (userId) {
       const hasAchievements = achievements.some(
@@ -47,6 +55,60 @@ const GreenPulse = () => {
   const videoPlayer = [
     "https://drive.google.com/file/d/1R0qeiFTaRneWE7B72TGlJCX1-AV3Kaw9/preview",
   ];
+
+  const handleLikeDislike = (type: "like" | "dislike") => {
+    if (!userId) return;
+
+    utilsHandleLikeDislike({
+      type,
+      userId,
+      clickedTechs,
+      dispatch,
+      projectName: "Green_pulse",
+      onAchievement: () => handleSubmitClick(type),
+    });
+  };
+
+  const handleSubmitClick = async (type: string) => {
+    const achievementTitle =
+      type === "like"
+        ? "Поставил лайк или дизлайк в Green_pulse"
+        : "Поставил лайк или дизлайк в Green_pulse";
+
+    const newAchievement = {
+      title: achievementTitle,
+      points: 10,
+      date: new Date().toISOString(),
+      completed: true,
+    };
+
+    if (userId) {
+      try {
+        const res = await fetch(`http://localhost:3001/users/${userId}`);
+        const user = await res.json();
+
+        const updatedAchievements = [...user.achievements, newAchievement];
+
+        await fetch(`http://localhost:3001/users/${userId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            progress: user.progress + 10,
+            achievements: updatedAchievements,
+          }),
+        });
+
+        // Обновляем Redux Store
+        dispatch(setAchievements(updatedAchievements)); // Обновляем весь список достижений
+        dispatch(setProgress(user.progress + 10)); // Обновляем прогресс
+        setIsAlertOpen(true);
+      } catch (error) {
+        console.error("Ошибка обновления:", error);
+      }
+    }
+  };
 
   return (
     <>
@@ -114,10 +176,24 @@ const GreenPulse = () => {
                   </ul>
                 </div>
                 <div className="flex gap-6 mt-3">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                  <div
+                   onClick={() => handleLikeDislike("like")}
+                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
+                      hasLiked
+                        ? "bg-green-300"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
+                  >
                     <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
                   </div>
-                  <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                  <div
+                  onClick={() => handleLikeDislike("dislike")}
+                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
+                      hasDisliked
+                        ? "bg-red-300"
+                        : "bg-gray-200 hover:bg-gray-300"
+                    }`}
+                  >
                     <ThumbDownOffAltIcon className="w-8 h-8 text-red-600" />
                   </div>
                 </div>
