@@ -51,6 +51,11 @@ const userSlice = createSlice({
         state.clickedTechs.push(action.payload);
       }
     },
+    removeClickedTech: (state, action) => {
+      state.clickedTechs = state.clickedTechs.filter(
+        (tech) => tech !== action.payload
+      )
+    },
     toggleModal: (state) => {
       state.isModalOpen = !state.isModalOpen;
     },
@@ -88,6 +93,7 @@ export const {
   setProgress,
   setAchievements,
   addClickedTech,
+  removeClickedTech,
   toggleModal,
   initializeFromLocalStorage,
   clearUserData,
