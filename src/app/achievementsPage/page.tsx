@@ -34,11 +34,11 @@ const items = [
   },
   { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
   { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews" },
-  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в InfoNews"},
+  { title: "Поставил лайк или дизлайк в InfoNews", subtitle: "Поставить лайк или дизлайк в InfoNews"},
   { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop" },
-  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в Maryshop"},
+  { title: "Поставил лайк или дизлайк в Maryshop", subtitle: "Поставить лайк или дизлайк в Maryshop"},
   { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse" },
-  { title: "Поставил лайк или дизлайк", subtitle: "Поставить лайк или дизлайк в Green_pulse"},
+  { title: "Поставил лайк или дизлайк в Green_pulse", subtitle: "Поставить лайк или дизлайк в Green_pulse"},
   { title: "Комментарий", subtitle: "Написать комментарий" },
 ];
 
