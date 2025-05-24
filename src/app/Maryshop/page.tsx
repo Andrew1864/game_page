@@ -10,6 +10,8 @@ import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
 import { addClickedTech } from "../slices/userSlice";
+import { handleAchievement } from "../utils/handleAchievement";
+import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -24,6 +26,8 @@ const Maryshop = () => {
     (state: RootState) => state.user.clickedTechs
   );
   const dispatch = useDispatch();
+  const hasLiked = clickedTechs.includes("Maryshop_like");
+  const hasDisliked = clickedTechs.includes("Maryshop_dislike");
 
   useEffect(() => {
     if (userId) {
@@ -51,6 +55,38 @@ const Maryshop = () => {
   const maryshopVideo = [
     "https://drive.google.com/file/d/1QIxXSateJr71Y7i2GfrO34GHPSILWfn2/preview",
   ];
+
+  const handleLikeDislike = (type: "like" | "dislike") => {
+    if (!userId) return;
+
+    utilsHandleLikeDislike({
+      type,
+      userId,
+      clickedTechs,
+      dispatch,
+      projectName: "Maryshop",
+      onAchievement: () => handleSubmitClick(type),
+    });
+  };
+
+  const handleSubmitClick = (techTitle: string) => {
+    if (!userId || clickedTechs.includes(techTitle)) return;
+    const visitProjects = [
+      "Поставил лайк или дизлайк в Maryshop",
+      "Поставил лайк или дизлайк в Maryshop",
+    ];
+    const mode = visitProjects.includes(techTitle)
+      ? "Поставил лайк или дизлайк в Maryshop"
+      : "Поставил лайк или дизлайк в Maryshop";
+
+    handleAchievement({
+      userId,
+      dispatch,
+      setIsAlertOpen,
+      context: "Maryshop",
+      mode: "action",
+    });
+  };
 
   return (
     <>
@@ -111,10 +147,20 @@ const Maryshop = () => {
                 </span>
               </div>
               <div className="flex gap-6 mt-3">
-                <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                <div
+                  className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
+                    hasLiked ? "bg-green-200" : ""
+                  }`}
+                  onClick={() => handleLikeDislike("like")}
+                >
                   <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
                 </div>
-                <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                <div
+                  className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
+                    hasDisliked ? "bg-red-200" : ""
+                  }`}
+                  onClick={() => handleLikeDislike("dislike")}
+                >
                   <ThumbDownOffAltIcon className="w-8 h-8 text-red-600" />
                 </div>
               </div>
