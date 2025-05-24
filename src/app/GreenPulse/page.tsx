@@ -8,12 +8,9 @@ import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
-import {
-  addClickedTech,
-  setAchievements,
-  setProgress,
-} from "../slices/userSlice";
+import { addClickedTech } from "../slices/userSlice";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
+import { handleAchievement } from "../utils/handleAchievement";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -69,45 +66,24 @@ const GreenPulse = () => {
     });
   };
 
-  const handleSubmitClick = async (type: string) => {
-    const achievementTitle =
-      type === "like"
-        ? "Поставил лайк или дизлайк в Green_pulse"
-        : "Поставил лайк или дизлайк в Green_pulse";
+  const handleSubmitClick = (techTitle: string) => {
+    if (!userId || clickedTechs.includes(techTitle)) return;
 
-    const newAchievement = {
-      title: achievementTitle,
-      points: 10,
-      date: new Date().toISOString(),
-      completed: true,
-    };
+    const visitProjects = [
+      "Поставил лайк или дизлайк в Green_pulse",
+      "Поставил лайк или дизлайк в Green_pulse",
+    ];
+    const mode = visitProjects.includes(techTitle)
+      ? "Поставил лайк или дизлайк в Green_pulse"
+      : "Поставил лайк или дизлайк в Green_pulse";
 
-    if (userId) {
-      try {
-        const res = await fetch(`http://localhost:3001/users/${userId}`);
-        const user = await res.json();
-
-        const updatedAchievements = [...user.achievements, newAchievement];
-
-        await fetch(`http://localhost:3001/users/${userId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            progress: user.progress + 10,
-            achievements: updatedAchievements,
-          }),
-        });
-
-        // Обновляем Redux Store
-        dispatch(setAchievements(updatedAchievements)); // Обновляем весь список достижений
-        dispatch(setProgress(user.progress + 10)); // Обновляем прогресс
-        setIsAlertOpen(true);
-      } catch (error) {
-        console.error("Ошибка обновления:", error);
-      }
-    }
+    handleAchievement({
+      userId,
+      dispatch,
+      setIsAlertOpen,
+      context: "Green_pulse",
+      mode: "action",
+    });
   };
 
   return (
@@ -177,7 +153,7 @@ const GreenPulse = () => {
                 </div>
                 <div className="flex gap-6 mt-3">
                   <div
-                   onClick={() => handleLikeDislike("like")}
+                    onClick={() => handleLikeDislike("like")}
                     className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
                       hasLiked
                         ? "bg-green-300"
@@ -187,7 +163,7 @@ const GreenPulse = () => {
                     <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
                   </div>
                   <div
-                  onClick={() => handleLikeDislike("dislike")}
+                    onClick={() => handleLikeDislike("dislike")}
                     className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
                       hasDisliked
                         ? "bg-red-300"
