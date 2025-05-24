@@ -10,6 +10,8 @@ import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
 import { addClickedTech } from "../slices/userSlice";
+import { handleAchievement } from "../utils/handleAchievement";
+import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -24,6 +26,8 @@ const InfoNews = () => {
     (state: RootState) => state.user.clickedTechs
   );
   const dispatch = useDispatch();
+  const hasLiked = clickedTechs.includes("InfoNews_like");
+  const hasDisliked = clickedTechs.includes("InfoNews_dislike");
 
   useEffect(() => {
     if (userId) {
@@ -50,6 +54,38 @@ const InfoNews = () => {
   const videoPlayer = [
     "https://drive.google.com/file/d/11QVSCXkcemfz4ySJlLZpqtZ-BrE2n8Rs/preview",
   ];
+
+  const handleLikeDislike = (type: "like" | "dislike") => {
+    if (!userId) return;
+
+    utilsHandleLikeDislike({
+      type,
+      userId,
+      clickedTechs,
+      dispatch,
+      projectName: "InfoNews",
+      onAchievement: () => handleSubmitClick(type),
+    });
+  };
+
+  const handleSubmitClick = (techTitle: string) => {
+    if (!userId || clickedTechs.includes(techTitle)) return;
+    const visitProjects = [
+      "Поставил лайк или дизлайк в InfoNews",
+      "Поставил лайк или дизлайк в InfoNews",
+    ];
+    const mode = visitProjects.includes(techTitle)
+      ? "Поставил лайк или дизлайк в InfoNews"
+      : "Поставил лайк или дизлайк в InfoNews";
+
+    handleAchievement({
+      userId,
+      dispatch,
+      setIsAlertOpen,
+      context: "InfoNews",
+      mode: "action",
+    });
+  };
 
   return (
     <>
@@ -111,10 +147,20 @@ const InfoNews = () => {
                   </span>
                 </div>
                 <div className="flex gap-6 mt-3">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                  <div
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
+                      hasLiked ? "bg-green-200" : ""
+                    }`}
+                    onClick={() => handleLikeDislike("like")}
+                  >
                     <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
                   </div>
-                  <div className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition">
+                  <div
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
+                      hasDisliked ? "bg-red-200" : ""
+                    }`}
+                    onClick={() => handleLikeDislike("dislike")}
+                  >
                     <ThumbDownOffAltIcon className="w-8 h-8 text-red-600" />
                   </div>
                 </div>
