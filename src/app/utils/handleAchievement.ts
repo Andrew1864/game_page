@@ -41,6 +41,11 @@ export const handleAchievement = async ({
     const res = await fetch(`http://localhost:3001/users/${userId}`);
     const user = await res.json();
 
+    const alreadyGot = user.achievements.some(
+      (ach: { title: string }) => ach.title === achievementTitle
+    );
+    if (alreadyGot) return;
+
     const updatedAchievements = [...user.achievements, newAchievement];
 
     await fetch(`http://localhost:3001/users/${userId}`, {
@@ -56,7 +61,7 @@ export const handleAchievement = async ({
 
     dispatch(setAchievements(updatedAchievements));
     dispatch(addClickedTech(context));
-    dispatch(setProgress(user.progress + 10))
+    dispatch(setProgress(user.progress + 10));
     setIsAlertOpen(true);
   } catch (error) {
     console.error("Ошибка обновления:", error);
