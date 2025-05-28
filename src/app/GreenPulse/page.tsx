@@ -29,18 +29,21 @@ const GreenPulse = () => {
   const hasDisliked = clickedTechs.includes("Green_pulse_dislike");
 
   useEffect(() => {
-    if (userId) {
-      const hasAchievements = achievements.some(
-        (ach) => ach.title === "Green_pulse"
-      );
+    if (!userId) return;
+    const hasAchievement = achievements.some(
+      (ach) => ach.title === "Зашёл в Green_pulse"
+    );
 
-      const hasClicked = clickedTechs.includes("Green_pulse");
-      if (!hasAchievements && !hasClicked) {
-        setIsAlertOpen(true);
-        dispatch(addClickedTech("Green_pulse"));
-      }
+    if (!hasAchievement) {
+      handleAchievement({
+        userId,
+        dispatch,
+        setIsAlertOpen,
+        context: "Green_pulse",
+        mode: "visit",
+      });
     }
-  }, [userId, achievements, clickedTechs, dispatch]);
+  }, [userId, achievements, dispatch]);
 
   const infoNewsScreenshots = [
     "https://i.imgur.com/JLDP6fr.png",

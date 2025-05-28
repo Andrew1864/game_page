@@ -30,18 +30,21 @@ const InfoNews = () => {
   const hasDisliked = clickedTechs.includes("InfoNews_dislike");
 
   useEffect(() => {
-    if (userId) {
-      const hasAchievements = achievements.some(
-        (ach) => ach.title === "InfoNews"
-      );
+    if (!userId) return;
+    const hasAchievement = achievements.some(
+      (ach) => ach.title === "Зашёл в InfoNews"
+    );
 
-      const hasClicked = clickedTechs.includes("InfoNews");
-      if (!hasAchievements && !hasClicked) {
-        setIsAlertOpen(true);
-        dispatch(addClickedTech("InfoNews"));
-      }
+    if (!hasAchievement) {
+      handleAchievement({
+        userId,
+        dispatch,
+        setIsAlertOpen,
+        context: "InfoNews",
+        mode: "visit",
+      });
     }
-  }, [userId, achievements, clickedTechs, dispatch]);
+  }, [userId, achievements, dispatch]);
 
   const infoNewsScreenshots = [
     "https://i.imgur.com/2M7wfwY.png",

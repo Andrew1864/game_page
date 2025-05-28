@@ -29,19 +29,23 @@ const Maryshop = () => {
   const hasLiked = clickedTechs.includes("Maryshop_like");
   const hasDisliked = clickedTechs.includes("Maryshop_dislike");
 
+  // 👉 При первом заходе на страницу
   useEffect(() => {
-    if (userId) {
-      const hasAchievements = achievements.some(
-        (ach) => ach.title === "Maryshop"
-      );
-
-      const hasClicked = clickedTechs.includes("Maryshop");
-      if (!hasAchievements && !hasClicked) {
-        setIsAlertOpen(true);
-        dispatch(addClickedTech("Maryshop"));
-      }
+    if (!userId) return;
+    const hasAchievement = achievements.some(
+      (ach) => ach.title === "Зашёл в Maryshop"
+    );
+    
+    if (!hasAchievement) {
+      handleAchievement({
+        userId,
+        dispatch,
+        setIsAlertOpen,
+        context: "Maryshop",
+        mode: "visit",
+      });
     }
-  }, [userId, achievements, clickedTechs, dispatch]);
+  }, [userId, achievements, dispatch]);
 
   const maryshopScreenshots = [
     "https://i.imgur.com/mBHNHXk.png",
