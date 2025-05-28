@@ -6,12 +6,8 @@ import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
 import Alert from "../Alert/Alert";
 import FutureStack from "../FutureStack/FutureStack";
-import {
-  setAchievements,
-  setProgress,
-  addClickedTech,
-  updateAchievements,
-} from "@/app/slices/userSlice";
+import { handleAchievement } from "@/app/utils/handleAchievement";
+import { addClickedTech } from "@/app/slices/userSlice";
 import { RootState } from "@/app/slices/Store";
 import Link from "next/link";
 
@@ -56,55 +52,6 @@ const HomeComponents: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleSubmitClick = async (techTitle: string) => {
-    let achievementTitle;
-
-    if (
-      techTitle === "InfoNews" ||
-      techTitle === "Maryshop" ||
-      techTitle === "Green_pulse"
-    ) {
-      achievementTitle = `Зашёл в ${techTitle}`;
-    } else {
-      achievementTitle = `Узнал про ${techTitle}`;
-    }
-
-    const newAchievement = {
-      title: achievementTitle,
-      points: 10,
-      date: new Date().toISOString(),
-      completed: true,
-    };
-
-    if (userId) {
-      try {
-        const res = await fetch(`http://localhost:3001/users/${userId}`);
-        const user = await res.json();
-
-        const updatedAchievements = [...user.achievements, newAchievement];
-
-        // Отправляем обновления на сервер
-        await fetch(`http://localhost:3001/users/${userId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            progress: user.progress + 10,
-            achievements: updatedAchievements,
-          }),
-        });
-
-        // Обновляем Redux Store
-        dispatch(setAchievements(updatedAchievements)); // Обновляем весь список достижений
-        dispatch(setProgress(user.progress + 10)); // Обновляем прогресс
-        setIsAlertOpen(true);
-      } catch (error) {
-        console.error("Ошибка обновления:", error);
-      }
-    }
-  };
-
   const handleOpenModal = () => {
     setOpenModal(true);
     if (!clickedTechs.includes("Начать")) {
@@ -116,15 +63,22 @@ const HomeComponents: React.FC = () => {
     setOpenModal(false);
     setSelectedTech(null);
   };
+  // Универсальная функция обработки нажатия на технологию/проект
+  const handleTechClick = async (techTitle: string) => {
+    const isProject = ["InfoNews", "Maryshop", "Green_pulse"].includes(
+      techTitle
+    );
+    if (!userId) return;
 
-  const handleTechClick = (techTitle: string) => {
-    const selected = infoData.find((item) => item.title === techTitle);
-    if (selected) {
-      setSelectedTech(selected); // Устанавливаем выбранный элемент
-      handleSubmitClick(techTitle); // сохраняем ачивку
-      dispatch(addClickedTech(techTitle)); // Добавляем технологию в Redux
-    } else {
-      console.error(`Элемент с названием "${techTitle}" не найден.`);
+    if (!isProject) {
+      // Только для технологий!
+      await handleAchievement({
+        userId,
+        dispatch,
+        setIsAlertOpen,
+        context: techTitle,
+        mode: "learn",
+      });
     }
   };
 
@@ -223,7 +177,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/InfoNews"
                 onClick={() => {
-                  handleSubmitClick("InfoNews");
+                  handleTechClick("InfoNews");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("InfoNews")
@@ -257,7 +211,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/Maryshop"
                 onClick={() => {
-                  handleSubmitClick("Maryshop");
+                  handleTechClick("Maryshop");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("Maryshop")
@@ -290,7 +244,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/GreenPulse"
                 onClick={() => {
-                  handleSubmitClick("Green_pulse");
+                  handleTechClick("Green_pulse");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("Green_pulse")
