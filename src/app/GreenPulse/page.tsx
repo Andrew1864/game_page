@@ -8,7 +8,6 @@ import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
-import { addClickedTech } from "../slices/userSlice";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { handleAchievement } from "../utils/handleAchievement";
 import { useSelector, useDispatch } from "react-redux";
@@ -31,7 +30,7 @@ const GreenPulse = () => {
   useEffect(() => {
     if (!userId) return;
     const hasAchievement = achievements.some(
-      (ach) => ach.title === "Зашёл в Green_pulse"
+      (ach) => ach.title === "Зашёл в InfoNews"
     );
 
     if (!hasAchievement) {
@@ -41,6 +40,7 @@ const GreenPulse = () => {
         setIsAlertOpen,
         context: "Green_pulse",
         mode: "visit",
+        isAdd: true,
       });
     }
   }, [userId, achievements, dispatch]);
@@ -56,36 +56,28 @@ const GreenPulse = () => {
     "https://drive.google.com/file/d/1R0qeiFTaRneWE7B72TGlJCX1-AV3Kaw9/preview",
   ];
 
-  const handleLikeDislike = (type: "like" | "dislike") => {
+  const handleLikeDislike = async (type: "like" | "dislike") => {
     if (!userId) return;
 
-    utilsHandleLikeDislike({
+    await utilsHandleLikeDislike({
       type,
       userId,
       clickedTechs,
       dispatch,
       projectName: "Green_pulse",
-      onAchievement: () => handleSubmitClick(type),
-    });
-  };
-
-  const handleSubmitClick = (techTitle: string) => {
-    if (!userId || clickedTechs.includes(techTitle)) return;
-
-    const visitProjects = [
-      "Поставил лайк или дизлайк в Green_pulse",
-      "Поставил лайк или дизлайк в Green_pulse",
-    ];
-    const mode = visitProjects.includes(techTitle)
-      ? "Поставил лайк или дизлайк в Green_pulse"
-      : "Поставил лайк или дизлайк в Green_pulse";
-
-    handleAchievement({
-      userId,
-      dispatch,
-      setIsAlertOpen,
-      context: "Green_pulse",
-      mode: "action",
+      onAchievement: async (isAdded) => {
+        await handleAchievement({
+          userId,
+          dispatch,
+          setIsAlertOpen: (open) => {
+            // Только при добавлении ачивки открываем Alert
+            if (isAdded) setIsAlertOpen(open);
+          },
+          context: "Green_pulse",
+          mode: "action",
+          isAdd: isAdded,
+        });
+      },
     });
   };
 
