@@ -70,16 +70,16 @@ const HomeComponents: React.FC = () => {
     );
     if (!userId) return;
 
-    if (!isProject) {
-      // Только для технологий!
-      await handleAchievement({
-        userId,
-        dispatch,
-        setIsAlertOpen,
-        context: techTitle,
-        mode: "learn",
-      });
-    }
+    await handleAchievement({
+      userId,
+      dispatch,
+      setIsAlertOpen,
+      context: techTitle,
+      mode: isProject ? "visit" : "learn",
+      isAdd: true,
+      clickedTechs, // передаём!
+      // autoClick: true, // можно не указывать, по умолчанию true
+    });
   };
 
   return (
