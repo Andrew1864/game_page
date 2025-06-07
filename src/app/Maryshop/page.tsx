@@ -9,7 +9,6 @@ import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
-import { addClickedTech } from "../slices/userSlice";
 import { handleAchievement } from "../utils/handleAchievement";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,7 +34,7 @@ const Maryshop = () => {
     const hasAchievement = achievements.some(
       (ach) => ach.title === "Зашёл в Maryshop"
     );
-    
+
     if (!hasAchievement) {
       handleAchievement({
         userId,
@@ -43,6 +42,7 @@ const Maryshop = () => {
         setIsAlertOpen,
         context: "Maryshop",
         mode: "visit",
+        isAdd: true,
       });
     }
   }, [userId, achievements, dispatch]);
@@ -60,35 +60,28 @@ const Maryshop = () => {
     "https://drive.google.com/file/d/1QIxXSateJr71Y7i2GfrO34GHPSILWfn2/preview",
   ];
 
-  const handleLikeDislike = (type: "like" | "dislike") => {
+  const handleLikeDislike = async (type: "like" | "dislike") => {
     if (!userId) return;
 
-    utilsHandleLikeDislike({
+    await utilsHandleLikeDislike({
       type,
       userId,
       clickedTechs,
       dispatch,
       projectName: "Maryshop",
-      onAchievement: () => handleSubmitClick(type),
-    });
-  };
-
-  const handleSubmitClick = (techTitle: string) => {
-    if (!userId || clickedTechs.includes(techTitle)) return;
-    const visitProjects = [
-      "Поставил лайк или дизлайк в Maryshop",
-      "Поставил лайк или дизлайк в Maryshop",
-    ];
-    const mode = visitProjects.includes(techTitle)
-      ? "Поставил лайк или дизлайк в Maryshop"
-      : "Поставил лайк или дизлайк в Maryshop";
-
-    handleAchievement({
-      userId,
-      dispatch,
-      setIsAlertOpen,
-      context: "Maryshop",
-      mode: "action",
+      onAchievement: async (isAdded) => {
+        await handleAchievement({
+          userId,
+          dispatch,
+          setIsAlertOpen: (open) => {
+            // Только при добавлении ачивки открываем Alert
+            if (isAdded) setIsAlertOpen(open);
+          },
+          context: "Maryshop",
+          mode: "action",
+          isAdd: isAdded,
+        });
+      },
     });
   };
 
