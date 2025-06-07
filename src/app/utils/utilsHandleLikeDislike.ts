@@ -2,8 +2,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import {
   addClickedTech,
   removeClickedTech,
-  setAchievements,
   setProgress,
+  setAchievements,
 } from "../slices/userSlice";
 
 interface LikeDislikeParams {
@@ -12,7 +12,7 @@ interface LikeDislikeParams {
   clickedTechs: string[];
   dispatch: Dispatch;
   projectName: string;
-  onAchievement: () => void;
+  onAchievement: (isAdded: boolean) => void;
 }
 
 export const utilsHandleLikeDislike = async ({
@@ -27,15 +27,14 @@ export const utilsHandleLikeDislike = async ({
   const dislikeKey = `${projectName}_dislike`;
   const techKey = type === "like" ? likeKey : dislikeKey;
   const oppositeKey = type === "like" ? dislikeKey : likeKey;
-
   const userIdStr = userId.toString();
 
+  // Удаление лайка/дизлайка и минус очки
   if (clickedTechs.includes(techKey)) {
     try {
       const res = await fetch(
         `http://localhost:3001/likes?userId=${userIdStr}&project=${projectName}&type=${type}`
       );
-
       const likeData = await res.json();
 
       if (likeData.length > 0) {
@@ -45,7 +44,34 @@ export const utilsHandleLikeDislike = async ({
       }
 
       dispatch(removeClickedTech(techKey));
-      return "removed"; // вернуть статус
+      onAchievement(false);
+
+      // Уменьшаем прогресс и удаляем ачивку в базе
+      const resUser = await fetch(`http://localhost:3001/users/${userIdStr}`);
+      const user = await resUser.json();
+      const updatedProgress = Math.max(user.progress - 10, 0);
+      const updatedAchievements = user.achievements.filter(
+        (ach: { title: string }) =>
+          ach.title !== `Поставил лайк или дизлайк в ${projectName}`
+      );
+
+      await fetch(`http://localhost:3001/users/${userIdStr}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          progress: updatedProgress,
+          achievements: updatedAchievements,
+        }),
+      });
+
+      // --- ФЕТЧИМ актуального пользователя ---
+      const updatedUserRes = await fetch(`http://localhost:3001/users/${userIdStr}`);
+      const updatedUser = await updatedUserRes.json();
+
+      dispatch(setProgress(updatedUser.progress));
+      dispatch(setAchievements(updatedUser.achievements));
+
+      return "removed";
     } catch (error) {
       console.error("Ошибка при удалении лайка/дизлайка:", error);
       return "error";
@@ -54,6 +80,7 @@ export const utilsHandleLikeDislike = async ({
 
   if (clickedTechs.includes(oppositeKey)) return "already-opposite";
 
+  // Добавление лайка/дизлайка
   const newLike = {
     userId,
     project: projectName,
@@ -69,7 +96,9 @@ export const utilsHandleLikeDislike = async ({
     });
 
     dispatch(addClickedTech(techKey));
-    onAchievement(); // коллбэк для сохранения ачивки
+    onAchievement(true);
+
+    // (по желанию) — можно здесь тоже делать fetch пользователя, если меняются очки/ачивки
     return "added";
   } catch (error) {
     console.error("Ошибка при добавлении лайка/дизлайка:", error);
