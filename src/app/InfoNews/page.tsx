@@ -9,11 +9,10 @@ import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
-import { addClickedTech } from "../slices/userSlice";
-import { handleAchievement } from "../utils/handleAchievement";
-import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { handleAchievement } from "../utils/handleAchievement";
+import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 
 const InfoNews = () => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -29,12 +28,12 @@ const InfoNews = () => {
   const hasLiked = clickedTechs.includes("InfoNews_like");
   const hasDisliked = clickedTechs.includes("InfoNews_dislike");
 
+  // Достижение за заход на проект
   useEffect(() => {
     if (!userId) return;
     const hasAchievement = achievements.some(
       (ach) => ach.title === "Зашёл в InfoNews"
     );
-
     if (!hasAchievement) {
       handleAchievement({
         userId,
@@ -42,9 +41,36 @@ const InfoNews = () => {
         setIsAlertOpen,
         context: "InfoNews",
         mode: "visit",
+        isAdd: true,
       });
     }
   }, [userId, achievements, dispatch]);
+
+  // Обработка лайка/дизлайка
+  const handleLikeDislike = async (type: "like" | "dislike") => {
+    if (!userId) return;
+
+    await utilsHandleLikeDislike({
+      type,
+      userId,
+      clickedTechs,
+      dispatch,
+      projectName: "InfoNews",
+      onAchievement: async (isAdded) => {
+        await handleAchievement({
+          userId,
+          dispatch,
+          setIsAlertOpen: (open) => {
+            // Только при добавлении ачивки открываем Alert
+            if (isAdded) setIsAlertOpen(open);
+          },
+          context: "InfoNews",
+          mode: "action",
+          isAdd: isAdded,
+        });
+      },
+    });
+  };
 
   const infoNewsScreenshots = [
     "https://i.imgur.com/2M7wfwY.png",
@@ -57,38 +83,6 @@ const InfoNews = () => {
   const videoPlayer = [
     "https://drive.google.com/file/d/11QVSCXkcemfz4ySJlLZpqtZ-BrE2n8Rs/preview",
   ];
-
-  const handleLikeDislike = (type: "like" | "dislike") => {
-    if (!userId) return;
-
-    utilsHandleLikeDislike({
-      type,
-      userId,
-      clickedTechs,
-      dispatch,
-      projectName: "InfoNews",
-      onAchievement: () => handleSubmitClick(type),
-    });
-  };
-
-  const handleSubmitClick = (techTitle: string) => {
-    if (!userId || clickedTechs.includes(techTitle)) return;
-    const visitProjects = [
-      "Поставил лайк или дизлайк в InfoNews",
-      "Поставил лайк или дизлайк в InfoNews",
-    ];
-    const mode = visitProjects.includes(techTitle)
-      ? "Поставил лайк или дизлайк в InfoNews"
-      : "Поставил лайк или дизлайк в InfoNews";
-
-    handleAchievement({
-      userId,
-      dispatch,
-      setIsAlertOpen,
-      context: "InfoNews",
-      mode: "action",
-    });
-  };
 
   return (
     <>
