@@ -15,6 +15,14 @@ interface UserState {
   achievements: Achievement[];
   clickedTechs: string[];
   isModalOpen: boolean;
+   alert: AlertState;
+}
+
+interface AlertState {
+  isOpen: boolean;
+  title: string;
+  subtitle: string;
+  variant: "success" | "error" | "warning" | "info";
 }
 
 // Начальное состояние с явными типами
@@ -25,6 +33,12 @@ const initialState: UserState = {
   achievements: [],
   clickedTechs: [],
   isModalOpen: false,
+  alert:  {
+    isOpen: false,
+    title: "",
+    subtitle: "",
+    variant: "success"
+  }
 };
 
 const userSlice = createSlice({
@@ -74,6 +88,18 @@ const userSlice = createSlice({
         }
       }
     },
+     showAlert: (state, action) => {
+    const { title, subtitle, variant } = action.payload;
+    state.alert = {
+      isOpen: true,
+      title,
+      subtitle,
+      variant,
+    };
+  },
+  hideAlert: (state) => {
+    state.alert.isOpen = false;
+  },
     clearUserData: (state) => {
       state.name = "";
       state.userId = null;
@@ -98,6 +124,8 @@ export const {
   initializeFromLocalStorage,
   clearUserData,
   updateAchievements,
+  showAlert,
+  hideAlert ,
 } = userSlice.actions;
 
 export default userSlice.reducer;
