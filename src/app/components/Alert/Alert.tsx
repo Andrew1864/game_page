@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
@@ -38,6 +40,8 @@ const Alert: React.FC<AlertProps> = ({
 }) => {
   const iconVariant =
     icon ?? iconsComponents[variant as keyof typeof iconsComponents];
+
+  if (!isOpen) return null;
 
   useEffect(() => {
     if (isOpen) {
