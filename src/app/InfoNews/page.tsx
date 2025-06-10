@@ -23,7 +23,6 @@ const InfoNews = () => {
   const clickedTechs = useSelector(
     (state: RootState) => state.user.clickedTechs
   );
-  const alert = useSelector((state: RootState) => state.user.alert);
   const dispatch = useDispatch();
   const hasLiked = clickedTechs.includes("InfoNews_like");
   const hasDisliked = clickedTechs.includes("InfoNews_dislike");
