@@ -5,18 +5,17 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
+import { showAlert } from "../slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { checkAndVisit } from "../utils/checkAndSetVisit";
 import { handleAchievement } from "../utils/handleAchievement";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 
 const InfoNews = () => {
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-
   const userId = useSelector((state: RootState) => state.user.userId);
   const achievements = useSelector(
     (state: RootState) => state.user.achievements
@@ -24,6 +23,7 @@ const InfoNews = () => {
   const clickedTechs = useSelector(
     (state: RootState) => state.user.clickedTechs
   );
+  const alert = useSelector((state: RootState) => state.user.alert);
   const dispatch = useDispatch();
   const hasLiked = clickedTechs.includes("InfoNews_like");
   const hasDisliked = clickedTechs.includes("InfoNews_dislike");
@@ -31,18 +31,34 @@ const InfoNews = () => {
   // Достижение за заход на проект
   useEffect(() => {
     if (!userId) return;
-    const hasAchievement = achievements.some(
+
+    const achievementsSafe = Array.isArray(achievements) ? achievements : [];
+
+    const hasAchievement = achievementsSafe.some(
       (ach) => ach.title === "Зашёл в InfoNews"
     );
+
     if (!hasAchievement) {
       handleAchievement({
         userId,
         dispatch,
-        setIsAlertOpen,
         context: "InfoNews",
         mode: "visit",
         isAdd: true,
       });
+    }
+
+    const isRepeatVisit = checkAndVisit("InfoNewsVisited");
+
+    if (!isRepeatVisit) {
+      dispatch(
+        showAlert({
+          isOpen: true,
+          variant: "success",
+          title: "Поздравляем!",
+          subtitle: "Вы получили ачивку InfoNews и +10 очков!",
+        })
+      );
     }
   }, [userId, achievements, dispatch]);
 
@@ -60,10 +76,6 @@ const InfoNews = () => {
         await handleAchievement({
           userId,
           dispatch,
-          setIsAlertOpen: (open) => {
-            // Только при добавлении ачивки открываем Alert
-            if (isAdded) setIsAlertOpen(open);
-          },
           context: "InfoNews",
           mode: "action",
           isAdd: isAdded,
@@ -166,13 +178,6 @@ const InfoNews = () => {
           </div>
         </div>
       </div>
-      <Alert
-        variant="success"
-        isOpen={isAlertOpen}
-        onClose={() => setIsAlertOpen(false)}
-        title="Поздравляем!"
-        subtitle="Вы получили ачивку и +10 очков! "
-      />
     </>
   );
 };
