@@ -4,18 +4,17 @@ import Link from "next/link";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
+import { showAlert } from "@/app/slices/userSlice";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
 import { handleAchievement } from "../utils/handleAchievement";
+import { checkAndVisit } from "../utils/checkAndSetVisit";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const GreenPulse = () => {
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-
   const userId = useSelector((state: RootState) => state.user.userId);
   const achievements = useSelector(
     (state: RootState) => state.user.achievements
@@ -29,7 +28,10 @@ const GreenPulse = () => {
 
   useEffect(() => {
     if (!userId) return;
-    const hasAchievement = achievements.some(
+
+    const achievementsSafe = Array.isArray(achievements) ? achievements : [];
+
+    const hasAchievement = achievementsSafe.some(
       (ach) => ach.title === "Зашёл в InfoNews"
     );
 
@@ -37,11 +39,23 @@ const GreenPulse = () => {
       handleAchievement({
         userId,
         dispatch,
-        setIsAlertOpen,
         context: "Green_pulse",
         mode: "visit",
         isAdd: true,
       });
+    }
+
+    const isRepeatVisit = checkAndVisit("Green_pulseVisited");
+
+    if (!isRepeatVisit) {
+      dispatch(
+        showAlert({
+          isOpen: true,
+          variant: "success",
+          title: "Поздравляем!",
+          subtitle: "Вы получили ачивку Green_Pulse и +10 очков!",
+        })
+      );
     }
   }, [userId, achievements, dispatch]);
 
@@ -69,10 +83,6 @@ const GreenPulse = () => {
         await handleAchievement({
           userId,
           dispatch,
-          setIsAlertOpen: (open) => {
-            // Только при добавлении ачивки открываем Alert
-            if (isAdded) setIsAlertOpen(open);
-          },
           context: "Green_pulse",
           mode: "action",
           isAdd: isAdded,
@@ -173,13 +183,6 @@ const GreenPulse = () => {
           </div>
         </div>
       </div>
-      <Alert
-        variant="success"
-        isOpen={isAlertOpen}
-        onClose={() => setIsAlertOpen(false)}
-        title="Поздравляем!"
-        subtitle="Вы получили ачивку и +10 очков! "
-      />
     </>
   );
 };
