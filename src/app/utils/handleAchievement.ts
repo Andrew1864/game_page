@@ -1,31 +1,34 @@
+"use client";
+
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   setAchievements,
   addClickedTech,
   removeClickedTech,
   setProgress,
+  showAlert,
 } from "../slices/userSlice";
 
 interface AchievementParams {
   userId: number;
   dispatch: Dispatch;
-  setIsAlertOpen: (open: boolean) => void;
   context: string;
   mode: "visit" | "learn" | "action";
   isAdd: boolean;
   clickedTechs?: string[];
   autoClick?: boolean;
+  showCustomAlert?: boolean;
 }
 
 export const handleAchievement = async ({
   userId,
   dispatch,
-  setIsAlertOpen,
   context,
   mode = "learn",
   isAdd,
   clickedTechs = [],
   autoClick = true,
+  showCustomAlert = true,
 }: AchievementParams) => {
   let achievementTitle = "";
 
@@ -51,17 +54,21 @@ export const handleAchievement = async ({
     const res = await fetch(`http://localhost:3001/users/${userId}`);
     const user = await res.json();
 
+    // Гарантируем массив!
+    const userAchievements = Array.isArray(user.achievements)
+      ? user.achievements
+      : [];
     let updatedAchievements = [];
     let updatedProgress = user.progress;
 
     if (isAdd) {
-      const alreadyHasAchievement = user.achievements.some(
+      const alreadyHasAchievement = userAchievements.some(
         (ach: { title: string }) => ach.title === achievementTitle
       );
       if (alreadyHasAchievement) return;
 
       updatedAchievements = [
-        ...user.achievements,
+        ...userAchievements,
         {
           title: achievementTitle,
           points: 10,
@@ -70,10 +77,17 @@ export const handleAchievement = async ({
         },
       ];
       updatedProgress += 10;
-      setIsAlertOpen(true);
+      if (showCustomAlert) {
+        dispatch(
+          showAlert({
+            title: "Поздравляем!",
+            subtitle: `Вы получили ачивку «${achievementTitle}» и +10 очков!`,
+            variant: "success",
+          })
+        );
+      }
     } else {
-      // ❌ Больше НЕ вычитаем очки!
-      updatedAchievements = user.achievements.filter(
+      updatedAchievements = userAchievements.filter(
         (ach: { title: string }) => ach.title !== achievementTitle
       );
       // Прогресс оставляем как есть!
