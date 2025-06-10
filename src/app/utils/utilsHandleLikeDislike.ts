@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   addClickedTech,
@@ -65,7 +67,9 @@ export const utilsHandleLikeDislike = async ({
       });
 
       // --- ФЕТЧИМ актуального пользователя ---
-      const updatedUserRes = await fetch(`http://localhost:3001/users/${userIdStr}`);
+      const updatedUserRes = await fetch(
+        `http://localhost:3001/users/${userIdStr}`
+      );
       const updatedUser = await updatedUserRes.json();
 
       dispatch(setProgress(updatedUser.progress));
