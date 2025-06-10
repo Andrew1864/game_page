@@ -20,6 +20,8 @@ interface AchievementParams {
   showCustomAlert?: boolean;
 }
 
+const futureStackTitles = ["Vue.js", "Docker", "Backend"];
+
 export const handleAchievement = async ({
   userId,
   dispatch,
@@ -36,6 +38,8 @@ export const handleAchievement = async ({
     achievementTitle = `Зашёл в ${context}`;
   } else if (mode === "action") {
     achievementTitle = `Поставил лайк или дизлайк в ${context}`;
+  } else if (mode === "learn" && futureStackTitles.includes(context)) {
+    achievementTitle = `Изучил(а) ${context}`;
   } else {
     achievementTitle = `Узнал про ${context}`;
   }
