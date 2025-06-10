@@ -5,18 +5,17 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import Alert from "../components/Alert/Alert";
 import Gallery from "../components/GalleryPhoto/Gallery";
 import VideoPlayer from "../components/GalleryVideo/VideoPlayer";
 import { RootState } from "../slices/Store";
+import { showAlert } from "../slices/userSlice";
 import { handleAchievement } from "../utils/handleAchievement";
 import { utilsHandleLikeDislike } from "../utils/utilsHandleLikeDislike";
+import { checkAndVisit } from "../utils/checkAndSetVisit";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 const Maryshop = () => {
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-
   const userId = useSelector((state: RootState) => state.user.userId);
   const achievements = useSelector(
     (state: RootState) => state.user.achievements
@@ -31,7 +30,10 @@ const Maryshop = () => {
   // 👉 При первом заходе на страницу
   useEffect(() => {
     if (!userId) return;
-    const hasAchievement = achievements.some(
+
+    const achievementsSafe = Array.isArray(achievements) ? achievements : [];
+
+    const hasAchievement = achievementsSafe.some(
       (ach) => ach.title === "Зашёл в Maryshop"
     );
 
@@ -39,11 +41,23 @@ const Maryshop = () => {
       handleAchievement({
         userId,
         dispatch,
-        setIsAlertOpen,
         context: "Maryshop",
         mode: "visit",
         isAdd: true,
       });
+    }
+
+    const isRepeatVisit = checkAndVisit("MaryshopVisited");
+
+    if (!isRepeatVisit) {
+      dispatch(
+        showAlert({
+          isOpen: true,
+          variant: "success",
+          title: "Поздравляем!",
+          subtitle: "Вы получили ачивку Maryshop и +10 очков!",
+        })
+      );
     }
   }, [userId, achievements, dispatch]);
 
@@ -73,10 +87,6 @@ const Maryshop = () => {
         await handleAchievement({
           userId,
           dispatch,
-          setIsAlertOpen: (open) => {
-            // Только при добавлении ачивки открываем Alert
-            if (isAdded) setIsAlertOpen(open);
-          },
           context: "Maryshop",
           mode: "action",
           isAdd: isAdded,
@@ -165,13 +175,6 @@ const Maryshop = () => {
           </div>
         </div>
       </div>
-      <Alert
-        variant="success"
-        isOpen={isAlertOpen}
-        onClose={() => setIsAlertOpen(false)}
-        title="Поздравляем!"
-        subtitle="Вы получили ачивку и +10 очков! "
-      />
     </>
   );
 };
