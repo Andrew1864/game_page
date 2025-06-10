@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
-import Alert from "../Alert/Alert";
 import FutureStack from "../FutureStack/FutureStack";
 import { handleAchievement } from "@/app/utils/handleAchievement";
 import { addClickedTech } from "@/app/slices/userSlice";
@@ -20,15 +19,14 @@ interface InfoItem {
 
 const HomeComponents: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = React.useState(false);
   const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
   const [infoData, setInfoData] = useState<InfoItem[]>([]);
-  const dispatch = useDispatch();
 
-  const userId = useSelector((state: RootState) => state.user.userId); // Получаем userId из Redux для проверки регистрации
+  const userId = useSelector((state: RootState) => state.user.userId);
   const clickedTechs = useSelector(
     (state: RootState) => state.user.clickedTechs
-  ); // Получаем список нажатых технологий из Redux
+  );
+  const dispatch = useDispatch();
 
   // Загружаем данные из db.json
   useEffect(() => {
@@ -63,22 +61,33 @@ const HomeComponents: React.FC = () => {
     setOpenModal(false);
     setSelectedTech(null);
   };
-  // Универсальная функция обработки нажатия на технологию/проект
-  const handleTechClick = async (techTitle: string) => {
-    const isProject = ["InfoNews", "Maryshop", "Green_pulse"].includes(
-      techTitle
-    );
-    if (!userId) return;
 
+  // Новый обработчик: открывает модалку и начисляет ачивку
+  const handleTechInfoClick = async (item: InfoItem) => {
+    setSelectedTech(item);
+    if (userId) {
+      await handleAchievement({
+        userId,
+        dispatch,
+        context: item.title,
+        mode: "learn",
+        isAdd: true,
+        clickedTechs,
+      });
+    }
+  };
+
+  // Старый обработчик: только для проектов
+  const handleProjectClick = async (projectTitle: string) => {
+    if (!userId) return;
     await handleAchievement({
       userId,
       dispatch,
-      setIsAlertOpen,
-      context: techTitle,
-      mode: isProject ? "visit" : "learn",
+      context: projectTitle,
+      mode: "visit",
       isAdd: true,
-      clickedTechs, // передаём!
-      // autoClick: true, // можно не указывать, по умолчанию true
+      clickedTechs,
+      showCustomAlert: false,
     });
   };
 
@@ -131,7 +140,7 @@ const HomeComponents: React.FC = () => {
                     ? "text-green-600"
                     : "text-gray-900 hover:text-indigo-600"
                 }`}
-                onClick={() => handleTechClick(item.title)}
+                onClick={() => handleTechInfoClick(item)}
               >
                 {item.title}
               </p>
@@ -177,7 +186,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/InfoNews"
                 onClick={() => {
-                  handleTechClick("InfoNews");
+                  handleProjectClick("InfoNews");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("InfoNews")
@@ -211,7 +220,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/Maryshop"
                 onClick={() => {
-                  handleTechClick("Maryshop");
+                  handleProjectClick("Maryshop");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("Maryshop")
@@ -244,7 +253,7 @@ const HomeComponents: React.FC = () => {
               <Link
                 href="/GreenPulse"
                 onClick={() => {
-                  handleTechClick("Green_pulse");
+                  handleProjectClick("Green_pulse");
                 }}
                 className={`relative z-10 ${
                   clickedTechs.includes("Green_pulse")
@@ -264,18 +273,12 @@ const HomeComponents: React.FC = () => {
       <NameInputModal open={openModal} onClose={handleClose} />
       {selectedTech && (
         <ModalInfo
+          key={selectedTech.title}
           title={selectedTech.title}
           description={selectedTech.description}
           onClose={handleClose}
         />
       )}
-      <Alert
-        variant="success"
-        isOpen={isAlertOpen}
-        onClose={() => setIsAlertOpen(false)}
-        title="Поздравляем!"
-        subtitle="Вы получили ачивку и +10 очков! "
-      />
     </main>
   );
 };
