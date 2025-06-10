@@ -1,3 +1,5 @@
+"use client";
+
 import { configureStore } from "@reduxjs/toolkit"; // это функция для создания store из Redux Toolkit
 import userSlice from "../slices/userSlice";
 
