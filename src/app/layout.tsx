@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import ReduxProvider from "./components/ReduxProvider/ReduxProvider";
+import { Providers } from "./providers";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import AlertWrapper from "./components/Alert/AlertWrapper";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -17,19 +18,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`} ${inter.variable} antialiased`}>
-        <ReduxProvider>
+      <body className={` ${inter.variable} antialiased`}>
+        <div id="modal-root"></div>
+        <Providers>
           <>
             <Header />
             {children}
             <Footer />
+            <AlertWrapper />
           </>
-        </ReduxProvider>
+        </Providers>
       </body>
     </html>
   );
