@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import LockOutlineIcon from "@mui/icons-material/LockOutline";
