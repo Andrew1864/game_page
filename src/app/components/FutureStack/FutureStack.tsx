@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/app/slices/Store";
+import { addClickedTech } from "@/app/slices/userSlice";
 import { handleAchievement } from "@/app/utils/handleAchievement";
 
 const stacks = [
@@ -70,20 +71,25 @@ const FutureStack = () => {
     async (title: string) => {
       if (!userId) return;
 
-      const hasAchievement = achievements.some(
-        (ach) => ach.title === `Изучил(а)${title}`
+      const achievementsSafe = Array.isArray(achievements) ? achievements : [];
+
+      const hasAchievement = achievementsSafe.some(
+        (ach) => ach.title === `Изучил(а) ${title}`
       );
 
-      if (hasAchievement) return;
-
-      await handleAchievement({
-        userId,
-        dispatch,
-        context: title,
-        mode: "learn",
-        isAdd: true,
-        clickedTechs,
-      });
+      if (!hasAchievement) {
+        await handleAchievement({
+          userId,
+          dispatch,
+          context: title,
+          mode: "learn",
+          isAdd: true,
+          clickedTechs,
+        });
+      }
+      if (!clickedTechs.includes(title)) {
+        dispatch(addClickedTech(title));
+      }
     },
     [userId, achievements, clickedTechs, dispatch]
   );
