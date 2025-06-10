@@ -1,9 +1,12 @@
 "use client";
+
+import Link from "next/link";
 import { RootState } from "@/app/slices/Store";
 import { useSelector } from "react-redux";
 import StarPurple500Icon from "@mui/icons-material/StarPurple500";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import AchievementCard from "../components/Card/AchievementCard";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const items = [
   { title: "Написал имя", subtitle: "Начни игру" },
@@ -34,11 +37,23 @@ const items = [
   },
   { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
   { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews" },
-  { title: "Поставил лайк или дизлайк в InfoNews", subtitle: "Поставить лайк или дизлайк в InfoNews"},
+  {
+    title: "Поставил лайк или дизлайк в InfoNews",
+    subtitle: "Поставить лайк или дизлайк в InfoNews",
+  },
   { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop" },
-  { title: "Поставил лайк или дизлайк в Maryshop", subtitle: "Поставить лайк или дизлайк в Maryshop"},
+  {
+    title: "Поставил лайк или дизлайк в Maryshop",
+    subtitle: "Поставить лайк или дизлайк в Maryshop",
+  },
   { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse" },
-  { title: "Поставил лайк или дизлайк в Green_pulse", subtitle: "Поставить лайк или дизлайк в Green_pulse"},
+  {
+    title: "Поставил лайк или дизлайк в Green_pulse",
+    subtitle: "Поставить лайк или дизлайк в Green_pulse",
+  },
+  { title: "Изучил(а) Vue.js", subtitle: "Узнать о Vue.js" },
+  { title: "Изучил(а) Docker", subtitle: "Узнать про Docker" },
+  { title: "Изучил(а) Backend", subtitle: "Узнать про Backend" },
   { title: "Комментарий", subtitle: "Написать комментарий" },
 ];
 
@@ -58,6 +73,15 @@ const AchievementsPage = () => {
   return (
     <>
       <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-start px-6 pt-6">
+        <div className="w-full flex justify-start mb-6 pl-8">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-gray-800 hover:text-blue-800 hover:underline transition"
+          >
+            <ArrowBackIcon className="w-6 h-6" />
+            <span className="text-lg font-medium">Назад</span>
+          </Link>
+        </div>
         <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 ">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
