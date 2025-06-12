@@ -32,7 +32,14 @@ const ContactPage = () => {
               <dt className="text-right col-span-1 font-semibold text-gray-700">
                 Email
               </dt>
-              <dd className="col-span-2 text-gray-900">1864and@gmail.com</dd>
+              <dd className="col-span-2 text-gray-900">
+                <a
+                  href="mailto:1864and@gmail.com"
+                  className="text-gray-600 hover:underline"
+                >
+                  1864and@gmail.com
+                </a>
+              </dd>
             </div>
             <div className="py-4 grid grid-cols-3 gap-4 items-center">
               <dt className="text-right col-span-1 font-semibold text-gray-700">
