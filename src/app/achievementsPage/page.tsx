@@ -54,7 +54,7 @@ const items = [
   { title: "Изучил(а) Vue.js", subtitle: "Узнать о Vue.js" },
   { title: "Изучил(а) Docker", subtitle: "Узнать про Docker" },
   { title: "Изучил(а) Backend", subtitle: "Узнать про Backend" },
-  { title: "Комментарий", subtitle: "Написать комментарий" },
+  { title: "Написал комментарий", subtitle: "Написать комментарий" },
 ];
 
 const AchievementsPage = () => {
