@@ -2,15 +2,44 @@
 
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../slices/Store";
+import CardForTest from "../components/Card/CardForTest";
+import SuccessModal from "../components/Modal/SuccessModal";
+
+interface QuizType {
+  id: number;
+  question: string;
+  options: string[];
+  correctIndex: number;
+}
 
 const SkillsPage = () => {
+  const [tests, setTests] = useState<QuizType[]>([]);
   const hrName = useSelector((state: RootState) => state.user.name);
   // TODO: заменить на реальные значения, когда будут
   const correctCount = 0;
   const wrongCount = 0;
   const timer = "00:00";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/quiz");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        // Тут сервер вернёт именно массив тестов
+        const data: QuizType[] = await response.json();
+        console.log("quiz data from server", data); // <- тут увидишь массив объектов
+        setTests(data);
+      } catch (error) {
+        console.error("Ошибка загрузки данных:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 px-4">
@@ -47,9 +76,22 @@ const SkillsPage = () => {
       <div className="w-full max-w-4xl border-b border-gray-300 mb-6" />
       <main className="w-full max-w-4xl flex flex-col gap-4" id="mainSection">
         {/* Здесь будут карточки с тестами */}
-        <div className="text-center text-gray-400 py-12">
-          Тесты появятся здесь
-        </div>
+        {tests.length === 0 ? (
+          <div className="text-center text-gray-400 py-12">
+            Тесты появятся здесь
+          </div>
+        ) : (
+          tests.map((test) => (
+            <CardForTest
+              key={test.id}
+              question={test.question}
+              answers={test.options.map((option, idx) => ({
+                text: option,
+                isCorrect: idx === test.correctIndex,
+              }))}
+            />
+          ))
+        )}
       </main>
     </div>
   );
