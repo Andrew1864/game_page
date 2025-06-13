@@ -29,7 +29,6 @@ const Header = () => {
     { name: "Обо мне", id: "about", href: "/" },
     { name: "Навыки", id: "skills", href: "/skillsPage" },
     { name: "Достижения", id: "achievements", href: "/achievementsPage" },
-    { name: "Проекты", id: "projects", href: "/projectsPage" },
     { name: "Контакты", id: "contact", href: "/contactPage" },
   ];
 
