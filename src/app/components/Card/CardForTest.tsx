@@ -8,7 +8,15 @@ export interface CardForTestProps {
   }[];
 }
 
-const CardForTest = ({ question, answers }: CardForTestProps) => {
+const CardForTest = ({
+  question,
+  answers,
+  selected,
+  onSelect,
+}: CardForTestProps & {
+  selected: number | null;
+  onSelect: (idx: number) => void;
+}) => {
   return (
     <div className="w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
       <div className="flex flex-col gap-5">
@@ -19,12 +27,18 @@ const CardForTest = ({ question, answers }: CardForTestProps) => {
           {answers.map((answer, idx) => (
             <label
               key={idx}
-              className="flex items-center px-3 py-2 rounded-lg border border-gray-100 hover:border-gray-300 transition bg-gray-50 cursor-pointer"
+              className={`flex items-center px-3 py-2 rounded-lg border ${
+                selected === idx
+                  ? "border-blue-500 bg-blue-50"
+                  : "border-gray-100 hover:border-gray-300"
+              } transition cursor-pointer`}
             >
               <input
-                type="checkbox"
-                className="checkbox checkbox-sm checkbox-primary mr-3"
-                // disabled // если не нужен ввод
+                type="radio"
+                className="radio radio-sm radio-primary mr-3"
+                name="answer"
+                checked={selected === idx}
+                onChange={() => onSelect(idx)}
               />
               <span className="text-gray-700 text-base break-words">
                 {answer.text}
