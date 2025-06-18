@@ -8,12 +8,14 @@ interface AchievementCardProps {
   title: string;
   description: string;
   completed: boolean;
+  points: number;
 }
 
 const AchievementCard: React.FC<AchievementCardProps> = ({
   title,
   description,
   completed,
+  points,
 }) => {
   return (
     <div className="p-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm">
@@ -30,7 +32,7 @@ const AchievementCard: React.FC<AchievementCardProps> = ({
       <p className="text-gray-700 dark:text-gray-300">
         {completed ? (
           <>
-            Прогресс: <span className="text-green-500">+10 очков</span>
+            Прогресс: <span className="text-green-500">+{points} очков</span>
           </>
         ) : (
           <>

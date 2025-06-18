@@ -9,53 +9,61 @@ import AchievementCard from "../components/Card/AchievementCard";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const items = [
-  { title: "Написал имя", subtitle: "Начни игру" },
-  { title: "Узнал про ООП", subtitle: "Кликни по ООП" },
-  { title: "Узнал про React", subtitle: "Кликни по React" },
-  { title: "Узнал про Next.js", subtitle: "Кликни по Next.js" },
+  { title: "Написал имя", subtitle: "Начни игру", points: 10 },
+  { title: "Узнал про ООП", subtitle: "Кликни по ООП", points: 10 },
+  { title: "Узнал про React", subtitle: "Кликни по React", points: 10 },
+  { title: "Узнал про Next.js", subtitle: "Кликни по Next.js", points: 10 },
   {
     title: "Узнал про TypeScript",
     subtitle: "Кликни по TypeScript",
+    points: 10,
   },
   {
     title: "Узнал про TailwindCSS",
     subtitle: "Кликни по TailwindCSS",
+    points: 10,
   },
-  { title: "Узнал про Redux", subtitle: "Кликни по Redux" },
+  { title: "Узнал про Redux", subtitle: "Кликни по Redux", points: 10 },
   {
     title: "Узнал про Material-UI",
     subtitle: "Кликни по MaterialUi",
+    points: 10,
   },
   {
     title: "Узнал про JavaScript",
     subtitle: "Кликни по JavaScript",
+    points: 10,
   },
-  { title: "Узнал про Git", subtitle: "Кликни по Git" },
-  {
-    title: "Узнал про RestAPI",
-    subtitle: "Кликни по RestAPI",
-  },
-  { title: "Узнал про HTML", subtitle: "Кликни по HTML" },
-  { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews" },
+  { title: "Узнал про Git", subtitle: "Кликни по Git", points: 10 },
+  { title: "Узнал про RestAPI", subtitle: "Кликни по RestAPI", points: 10 },
+  { title: "Узнал про HTML", subtitle: "Кликни по HTML", points: 10 },
+  { title: "Зашёл в InfoNews", subtitle: "Зайди в InfoNews", points: 10 },
   {
     title: "Поставил лайк или дизлайк в InfoNews",
     subtitle: "Поставить лайк или дизлайк в InfoNews",
+    points: 10,
   },
-  { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop" },
+  { title: "Зашёл в Maryshop", subtitle: "Зайди в Maryshop", points: 10 },
   {
     title: "Поставил лайк или дизлайк в Maryshop",
     subtitle: "Поставить лайк или дизлайк в Maryshop",
+    points: 10,
   },
-  { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse" },
+  { title: "Зашёл в Green_pulse", subtitle: "Зайди в Green_pulse", points: 10 },
   {
     title: "Поставил лайк или дизлайк в Green_pulse",
     subtitle: "Поставить лайк или дизлайк в Green_pulse",
+    points: 10,
   },
-  { title: "Изучил(а) Vue.js", subtitle: "Узнать о Vue.js" },
-  { title: "Изучил(а) Docker", subtitle: "Узнать про Docker" },
-  { title: "Изучил(а) Backend", subtitle: "Узнать про Backend" },
-  { title: "Пройден мини-квиз", subtitle: "Пройти мини-тесты" },
-  { title: "Написал комментарий", subtitle: "Написать комментарий" },
+  { title: "Изучил(а) Vue.js", subtitle: "Узнать о Vue.js", points: 10 },
+  { title: "Изучил(а) Docker", subtitle: "Узнать про Docker", points: 10 },
+  { title: "Изучил(а) Backend", subtitle: "Узнать про Backend", points: 10 },
+  { title: "Пройден мини-квиз", subtitle: "Пройти мини-тесты", points: 50 },
+  {
+    title: "Написал комментарий",
+    subtitle: "Написать комментарий",
+    points: 10,
+  },
 ];
 
 const AchievementsPage = () => {
@@ -107,6 +115,7 @@ const AchievementsPage = () => {
               title={item.title}
               description={item.subtitle}
               completed={item.completed}
+              points={item.points}
             />
           ))}
         </div>
