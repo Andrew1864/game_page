@@ -101,7 +101,11 @@
     {
       "id": 4,
       "question": "Что возвращает функция-конструктор Promise?",
-      "options": ["Число", "Объект Promise", "Строку"],
+      "options": [
+        "Число",
+        "Объект Promise",
+        "Строку"
+      ],
       "correctIndex": 1
     },
     {
@@ -135,7 +139,33 @@
       "correctIndex": 0
     }
   ],
-  "users": [],
+  "users": [
+    {
+      "id": "4f56",
+      "name": "Andrew",
+      "progress": 70,
+      "achievements": [
+        {
+          "id": 1,
+          "title": "Написал имя",
+          "description": "Вы ввели имя!",
+          "completed": true
+        },
+        {
+          "title": "Пройден мини-квиз",
+          "points": 50,
+          "date": "2025-06-18T12:01:11.953Z",
+          "completed": true
+        },
+        {
+          "title": "Изучил(а) Backend",
+          "points": 10,
+          "date": "2025-06-18T12:03:46.507Z",
+          "completed": true
+        }
+      ]
+    }
+  ],
   "likes": [],
   "comments": []
 }

@@ -54,6 +54,7 @@ const items = [
   { title: "Изучил(а) Vue.js", subtitle: "Узнать о Vue.js" },
   { title: "Изучил(а) Docker", subtitle: "Узнать про Docker" },
   { title: "Изучил(а) Backend", subtitle: "Узнать про Backend" },
+  { title: "Пройден мини-квиз", subtitle: "Пройти мини-тесты" },
   { title: "Написал комментарий", subtitle: "Написать комментарий" },
 ];
 
