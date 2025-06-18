@@ -10,12 +10,12 @@ interface Achievement {
 // Определяем тип для состояния пользователя
 interface UserState {
   name: string;
-  userId: number | null;
+  userId: number | string | null;
   progress: number;
   achievements: Achievement[];
   clickedTechs: string[];
   isModalOpen: boolean;
-   alert: AlertState;
+  alert: AlertState;
 }
 
 interface AlertState {
@@ -33,12 +33,12 @@ const initialState: UserState = {
   achievements: [],
   clickedTechs: [],
   isModalOpen: false,
-  alert:  {
+  alert: {
     isOpen: false,
     title: "",
     subtitle: "",
-    variant: "success"
-  }
+    variant: "success",
+  },
 };
 
 const userSlice = createSlice({
@@ -68,7 +68,7 @@ const userSlice = createSlice({
     removeClickedTech: (state, action) => {
       state.clickedTechs = state.clickedTechs.filter(
         (tech) => tech !== action.payload
-      )
+      );
     },
     toggleModal: (state) => {
       state.isModalOpen = !state.isModalOpen;
@@ -88,18 +88,18 @@ const userSlice = createSlice({
         }
       }
     },
-     showAlert: (state, action) => {
-    const { title, subtitle, variant } = action.payload;
-    state.alert = {
-      isOpen: true,
-      title,
-      subtitle,
-      variant,
-    };
-  },
-  hideAlert: (state) => {
-    state.alert.isOpen = false;
-  },
+    showAlert: (state, action) => {
+      const { title, subtitle, variant } = action.payload;
+      state.alert = {
+        isOpen: true,
+        title,
+        subtitle,
+        variant,
+      };
+    },
+    hideAlert: (state) => {
+      state.alert.isOpen = false;
+    },
     clearUserData: (state) => {
       state.name = "";
       state.userId = null;
@@ -125,7 +125,7 @@ export const {
   clearUserData,
   updateAchievements,
   showAlert,
-  hideAlert ,
+  hideAlert,
 } = userSlice.actions;
 
 export default userSlice.reducer;
