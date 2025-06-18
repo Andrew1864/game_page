@@ -12,10 +12,10 @@ import {
 // Добавлен новый режим ачивки "comment" для комментариев пользователя.
 // Теперь AchievementParams поддерживает mode: "visit" | "learn" | "action" | "comment".
 interface AchievementParams {
-  userId: number;
+  userId: number | string;
   dispatch: Dispatch;
   context: string;
-  mode: "visit" | "learn" | "action" | "comment";
+  mode: "visit" | "learn" | "action" | "comment" | "quiz" | "quizAttempt";
   isAdd: boolean;
   clickedTechs?: string[];
   autoClick?: boolean;
@@ -44,6 +44,10 @@ export const handleAchievement = async ({
     achievementTitle = `Поставил лайк или дизлайк в ${context}`;
   } else if (mode === "comment") {
     achievementTitle = `Написал комментарий`;
+  } else if (mode === "quiz") {
+    achievementTitle = "Пройден мини-квиз";
+  } else if (mode === "quizAttempt") {
+    achievementTitle = ""; // Не даём ачивку, только очки и алерт
   } else if (mode === "learn" && futureStackTitles.includes(context)) {
     achievementTitle = `Изучил(а) ${context}`;
   } else {
@@ -79,26 +83,55 @@ export const handleAchievement = async ({
       );
       if (alreadyHasAchievement) return;
 
+      let points = 10;
+      if (mode === "quiz") {
+        points = 50;
+      }
+
       // Добавляем новую ачивку
-      updatedAchievements = [
-        ...userAchievements,
-        {
-          title: achievementTitle,
-          points: 10,
-          date: new Date().toISOString(),
-          completed: true,
-        },
-      ];
-      updatedProgress += 10;
+      if (mode === "quizAttempt") {
+        updatedAchievements = userAchievements; // не добавлять ачивку
+      } else {
+        // обычная логика добавления ачивки
+        updatedAchievements = [
+          ...userAchievements,
+          {
+            title: achievementTitle,
+            points,
+            date: new Date().toISOString(),
+            completed: true,
+          },
+        ];
+      }
+      updatedProgress += points;
       // Показываем алерт только если нужно
       if (showCustomAlert) {
-        dispatch(
-          showAlert({
-            title: "Поздравляем!",
-            subtitle: `Вы получили ачивку «${achievementTitle}» и +10 очков!`,
-            variant: "success",
-          })
-        );
+        if (mode === "quiz") {
+          dispatch(
+            showAlert({
+              title: "Поздравляем!",
+              subtitle: `Вы получили ачивку «${achievementTitle}» и +${points} очков!`,
+              variant: "success",
+            })
+          );
+        } else if (mode === "quizAttempt") {
+          dispatch(
+            showAlert({
+              title: "Попробуйте ещё раз!",
+              subtitle: `+${points} очков за попытку пройти мини-квиз!`,
+              variant: "info",
+            })
+          );
+        } else {
+          // Для остальных режимов — свой алерт
+          dispatch(
+            showAlert({
+              title: "Достижение!",
+              subtitle: `Вы получили ачивку «${achievementTitle}» и +${points} очков!`,
+              variant: "success",
+            })
+          );
+        }
       }
     } else {
       // Удаляем ачивку, если isAdd === false
