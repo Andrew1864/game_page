@@ -3,16 +3,25 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import StarPurple500Icon from "@mui/icons-material/StarPurple500";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 interface SuccessModalProps {
   open: boolean;
   onClose: () => void;
+  isSuccess: boolean;
+  title?: string;
+  description?: string;
 }
 
 const modalRoot = typeof window !== "undefined" ? document.body : null;
 
-const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose }) => {
-  // Запрет скролла страницы, когда открыта модалка
+const SuccessModal: React.FC<SuccessModalProps> = ({
+  open,
+  onClose,
+  isSuccess,
+  title,
+  description,
+}) => {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -57,14 +66,19 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose }) => {
           </svg>
         </button>
         <div className="flex flex-col items-center gap-4">
-          <div className="flex items-center justify-center text-5xl text-purple-500 mb-2">
-            <StarPurple500Icon fontSize="inherit" />
+          <div
+            className="flex items-center justify-center text-5xl mb-2"
+            style={{ color: isSuccess ? "#a855f7" : "#ef4444" }}
+          >
+            {isSuccess ? (
+              <StarPurple500Icon fontSize="inherit" />
+            ) : (
+              <ErrorOutlineIcon fontSize="inherit" />
+            )}
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-2">
-            Поздравляем с прохождением теста!
-          </h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
           <span className="block text-gray-400 text-sm mb-6">
-            Двигайся дальше — впереди только успех!
+            {description}
           </span>
           <button
             type="button"
