@@ -47,9 +47,6 @@ const userSlice = createSlice({
   reducers: {
     setName: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("userName", action.payload);
-      }
     },
     setUserId: (state, action: PayloadAction<number | null>) => {
       state.userId = action.payload;
@@ -107,7 +104,11 @@ const userSlice = createSlice({
       state.achievements = [];
       state.clickedTechs = [];
       if (typeof window !== "undefined") {
-        localStorage.clear();
+        localStorage.removeItem("userName");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("progress");
+        localStorage.removeItem("achievements");
+        localStorage.removeItem("clickedTechs");
       }
     },
   },
