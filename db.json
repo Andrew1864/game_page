@@ -69,7 +69,7 @@
   ],
   "quiz": [
     {
-      "id": 1,
+      "id": "1",
       "question": "Что делает useEffect?",
       "options": [
         "Изменяет DOM напрямую",
@@ -79,7 +79,7 @@
       "correctIndex": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "question": "Для чего используется REST API?",
       "options": [
         "Для организации взаимодействия между клиентом и сервером через HTTP",
@@ -89,7 +89,7 @@
       "correctIndex": 0
     },
     {
-      "id": 3,
+      "id": "3",
       "question": "Что является основой парадигмы ООП (Объектно-Ориентированное Программирование)?",
       "options": [
         "Стилизация элементов",
@@ -99,7 +99,7 @@
       "correctIndex": 2
     },
     {
-      "id": 4,
+      "id": "4",
       "question": "Что возвращает функция-конструктор Promise?",
       "options": [
         "Число",
@@ -109,7 +109,7 @@
       "correctIndex": 1
     },
     {
-      "id": 5,
+      "id": "5",
       "question": "Что такое Vue.js?",
       "options": [
         "Фреймворк для создания пользовательских интерфейсов",
@@ -119,7 +119,7 @@
       "correctIndex": 0
     },
     {
-      "id": 6,
+      "id": "6",
       "question": "Что такое pull request в GitHub?",
       "options": [
         "Создание новой ветки",
@@ -129,7 +129,7 @@
       "correctIndex": 1
     },
     {
-      "id": 7,
+      "id": "7",
       "question": "Для чего используется Redux?",
       "options": [
         "Для управления состоянием приложения",
@@ -140,31 +140,6 @@
     }
   ],
   "users": [
-    {
-      "id": "4f56",
-      "name": "Andrew",
-      "progress": 70,
-      "achievements": [
-        {
-          "id": 1,
-          "title": "Написал имя",
-          "description": "Вы ввели имя!",
-          "completed": true
-        },
-        {
-          "title": "Пройден мини-квиз",
-          "points": 50,
-          "date": "2025-06-18T12:01:11.953Z",
-          "completed": true
-        },
-        {
-          "title": "Изучил(а) Backend",
-          "points": 10,
-          "date": "2025-06-18T12:03:46.507Z",
-          "completed": true
-        }
-      ]
-    }
   ],
   "likes": [],
   "comments": []

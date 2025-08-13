@@ -150,8 +150,9 @@ const SkillsPage = () => {
           {!started && (
             <button
               type="button"
+              disabled={isFinished}
               className="text-gray-900 bg-white border border-gray-300 focus:outline-none
-                hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-6 py-2 transition"
+                hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-6 py-2 transition cursor-pointer"
               onClick={() => {
                 setStarted(true);
                 setSeconds(0);
@@ -168,7 +169,7 @@ const SkillsPage = () => {
       <div className="w-full max-w-4xl border-b border-gray-300 mb-6" />
 
       {/* Основная часть */}
-      <main className="w-full max-w-4xl flex flex-col gap-4">
+      <main className="w-full max-w-4xl flex flex-col items-center gap-6">
         {!started ? (
           <div className="text-center text-gray-400 py-12">
             Нажмите "Начать", чтобы увидеть тесты
@@ -179,27 +180,28 @@ const SkillsPage = () => {
           </div>
         ) : (
           <>
-            <CardForTest
-              question={tests[currentStep].question}
-              answers={tests[currentStep].options.map((option, idx) => ({
-                text: option,
-                isCorrect: idx === tests[currentStep].correctIndex,
-              }))}
-              selected={selectedAnswer[currentStep] ?? null}
-              onSelect={(idx) => dispatch(setAnswer(idx))}
-            />
-
-            <div className="flex justify-end mt-4">
+            <div className="w-full flex justify-center">
+              <CardForTest
+                question={tests[currentStep].question}
+                answers={tests[currentStep].options.map((option, idx) => ({
+                  text: option,
+                  isCorrect: idx === tests[currentStep].correctIndex,
+                }))}
+                selected={selectedAnswer[currentStep] ?? null}
+                onSelect={(idx) => dispatch(setAnswer(idx))}
+              />
+            </div>
+            <div className="flex justify-center mt-4">
               {currentStep + 1 < tests.length ? (
                 <button
-                  className="bg-blue-500 text-white px-6 py-2 rounded-lg"
+                  className="bg-blue-500 text-white px-6 py-2 rounded-lg cursor-pointer"
                   onClick={() => dispatch(nextQuestion())}
                 >
                   Далее
                 </button>
               ) : (
                 <button
-                  className="bg-green-600 text-white px-6 py-2 rounded-lg"
+                  className="bg-green-600 text-white px-6 py-2 rounded-lg cursor-pointer"
                   onClick={handleFinish}
                 >
                   Завершить
@@ -220,7 +222,7 @@ const SkillsPage = () => {
         }
         description={
           correctCount === tests.length
-            ? "Вы ответили правильно на все вопросы!"
+            ? `Вы ответили правильно на все вопросы!`
             : `Вы ответили правильно на ${correctCount} из ${tests.length} вопросов. Попробуйте снова!`
         }
       />
