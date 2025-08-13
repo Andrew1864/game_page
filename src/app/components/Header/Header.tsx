@@ -6,6 +6,9 @@ import {
   initializeFromLocalStorage,
   clearUserData,
 } from "@/app/slices/userSlice";
+import { resetQuiz } from "@/app/slices/quizSlice";
+import { persistor } from "@/app/slices/Store";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 
@@ -13,6 +16,8 @@ const Header = () => {
   const [activePage, setActivePage] = useState("about");
 
   const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const hrName = useSelector((state: RootState) => state.user.name);
 
@@ -22,7 +27,13 @@ const Header = () => {
   }, [dispatch]);
 
   const handleLogout = () => {
-    dispatch(clearUserData());
+    router.push("/");
+
+    setTimeout(() => {
+      dispatch(clearUserData());
+      dispatch(resetQuiz());
+      persistor.purge();
+    }, 300);
   };
 
   const menuItems = [
@@ -36,7 +47,7 @@ const Header = () => {
     <header className="bg-white rounded-xl shadow-lg">
       <div className="mx-auto flex mt-2 h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
         {/* Логотип */}
-        <a className="block text-black text-xl font-bold" href="#">
+        <a className="block text-black text-xl font-bold" href="/">
           My Portfolio
         </a>
         {/* Навигация */}
