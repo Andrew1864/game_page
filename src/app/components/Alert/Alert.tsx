@@ -5,13 +5,9 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import HighlightOffSharpIcon from "@mui/icons-material/HighlightOffSharp";
 
-const alignClasses = {
-  center: "top-4 left-1/2 transform -translate-x-1/2",
-};
-
 const iconsComponents = {
-  success: <CheckCircleOutlineIcon className="w-8 h-8 text-emerald-600" />,
-  warning: <WarningAmberIcon className="w-8 h-8 text-rose-600" />,
+  success: <CheckCircleOutlineIcon className="w-6 h-6 text-emerald-600" />,
+  danger: <WarningAmberIcon className="w-6 h-6 text-rose-600" />,
 };
 
 const variantClasses = {
@@ -20,13 +16,12 @@ const variantClasses = {
 };
 
 interface AlertProps {
-  variant: "success" | "danger"; // только два варианта
+  variant: "success" | "danger";
   isOpen: boolean;
   onClose: () => void;
   icon?: React.ReactNode;
   title: string;
   subtitle: string;
-  align?: "center";
 }
 
 const Alert: React.FC<AlertProps> = ({
@@ -36,12 +31,8 @@ const Alert: React.FC<AlertProps> = ({
   icon,
   title,
   subtitle,
-  align = "center",
 }) => {
-  const iconVariant =
-    icon ?? iconsComponents[variant as keyof typeof iconsComponents];
-
-  if (!isOpen) return null;
+  const iconVariant = icon ?? iconsComponents[variant];
 
   useEffect(() => {
     if (isOpen) {
@@ -52,34 +43,44 @@ const Alert: React.FC<AlertProps> = ({
     }
   }, [isOpen, onClose]);
 
+  if (!isOpen) return null;
+
   return (
-    <>
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pointer-events-none">
       <div
-        className={`inline-flex transform-gpu transition-transform duration-500 ease-in-out items-center
-         ${variantClasses[variant]} ${alignClasses[align]}
-        ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-96 opacity-0"}
-         fixed z-50 w-[38rem] px-6 py-4 rounded-lg shadow-lg border-2`}
+        className={`transform-gpu transition-all duration-300 ease-in-out
+          ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"}
+          w-full max-w-md mx-auto flex items-start p-4 rounded-lg shadow-lg border-2 pointer-events-auto
+          ${variantClasses[variant]}`}
         role="alert"
       >
+        {/* Иконка */}
         {iconVariant && (
-          <div id="icon" className="mr-4">
-            {iconVariant}
-          </div>
+          <div className="mr-3 mt-0.5 flex-shrink-0">{iconVariant}</div>
         )}
-        <div className="flex flex-col">
+
+        {/* Контент */}
+        <div className="flex-1 min-w-0">
           {title && (
-            <h3 className="font-bold text-lg text-zinc-900">{title}</h3>
+            <h3 className="font-bold text-base text-zinc-900 break-words">
+              {title}
+            </h3>
           )}
-          {subtitle && <p className="text-md text-zinc-700 mt-1">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-sm text-zinc-700 mt-1 break-words">{subtitle}</p>
+          )}
         </div>
+
+        {/* Кнопка закрытия */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 text-zinc-700 hover:text-zinc-900 transition-colors cursor-pointer"
+          className="ml-3 flex-shrink-0 text-zinc-700 hover:text-zinc-900 transition-colors cursor-pointer"
+          aria-label="Закрыть уведомление"
         >
-          <HighlightOffSharpIcon className="w-6 h-6" />
+          <HighlightOffSharpIcon className="w-5 h-5" />
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
