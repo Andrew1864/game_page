@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../slices/Store";
 import { handleAchievement } from "../utils/handleAchievement";
+import BASE_URL from "../utils/apiConfig";
 
 interface CommentAchievement {
   name: string;
@@ -32,7 +33,7 @@ const ContactPage = () => {
 
   const fetchComments = async () => {
     try {
-      const res = await fetch("http://localhost:3001/comments");
+      const res = await fetch(`${BASE_URL}/comments`);
       const data = await res.json();
       setComments(data);
     } catch (error) {
@@ -48,7 +49,7 @@ const ContactPage = () => {
     if (!commentText.trim() || !userName) return;
 
     try {
-      const response = await fetch("http://localhost:3001/comments", {
+      const response = await fetch(`${BASE_URL}/comments`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
