@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../slices/Store";
 import { nextQuestion, finishQuiz, setAnswer } from "../slices/quizSlice";
 import { handleAchievement } from "../utils/handleAchievement";
+import BASE_URL from "../utils/apiConfig";
 import CardForTest from "../components/Card/CardForTest";
 import SuccessModal from "../components/Modal/SuccessModal";
 
@@ -46,7 +47,7 @@ const SkillsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/quiz");
+        const response = await fetch(`${BASE_URL}/quiz`);
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
         const data: QuizType[] = await response.json();
@@ -202,6 +203,7 @@ const SkillsPage = () => {
               ) : (
                 <button
                   className="bg-green-600 text-white px-6 py-2 rounded-lg cursor-pointer"
+                   disabled={isFinished}
                   onClick={handleFinish}
                 >
                   Завершить
