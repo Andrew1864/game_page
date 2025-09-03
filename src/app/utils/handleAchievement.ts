@@ -8,6 +8,7 @@ import {
   setProgress,
   showAlert,
 } from "../slices/userSlice";
+import BASE_URL from "./apiConfig";
 
 // Добавлен новый режим ачивки "comment" для комментариев пользователя.
 // Теперь AchievementParams поддерживает mode: "visit" | "learn" | "action" | "comment".
@@ -66,7 +67,7 @@ export const handleAchievement = async ({
 
   try {
     // Получаем пользователя с сервера
-    const res = await fetch(`http://localhost:3001/users/${userId}`);
+    const res = await fetch(`${BASE_URL}/users/${userId}`);
     const user = await res.json();
 
     // Гарантируем, что achievements — массив
@@ -142,7 +143,7 @@ export const handleAchievement = async ({
     }
 
     // Сохраняем изменения пользователя на сервер
-    await fetch(`http://localhost:3001/users/${userId}`, {
+    await fetch(`${BASE_URL}/users/${userId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
