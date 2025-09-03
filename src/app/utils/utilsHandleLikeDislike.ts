@@ -7,6 +7,7 @@ import {
   setProgress,
   setAchievements,
 } from "../slices/userSlice";
+import BASE_URL from "./apiConfig";
 
 interface LikeDislikeParams {
   type: "like" | "dislike";
@@ -35,12 +36,12 @@ export const utilsHandleLikeDislike = async ({
   if (clickedTechs.includes(techKey)) {
     try {
       const res = await fetch(
-        `http://localhost:3001/likes?userId=${userIdStr}&project=${projectName}&type=${type}`
+        `${BASE_URL}/likes?userId=${userIdStr}&project=${projectName}&type=${type}`
       );
       const likeData = await res.json();
 
       if (likeData.length > 0) {
-        await fetch(`http://localhost:3001/likes/${likeData[0].id}`, {
+        await fetch(`${BASE_URL}/likes/${likeData[0].id}`, {
           method: "DELETE",
         });
       }
@@ -49,7 +50,7 @@ export const utilsHandleLikeDislike = async ({
       onAchievement(false);
 
       // Уменьшаем прогресс и удаляем ачивку в базе
-      const resUser = await fetch(`http://localhost:3001/users/${userIdStr}`);
+      const resUser = await fetch(`${BASE_URL}/users/${userIdStr}`);
       const user = await resUser.json();
       const updatedProgress = Math.max(user.progress - 10, 0);
       const updatedAchievements = user.achievements.filter(
@@ -57,7 +58,7 @@ export const utilsHandleLikeDislike = async ({
           ach.title !== `Поставил лайк или дизлайк в ${projectName}`
       );
 
-      await fetch(`http://localhost:3001/users/${userIdStr}`, {
+      await fetch(`${BASE_URL}/users/${userIdStr}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,9 +68,7 @@ export const utilsHandleLikeDislike = async ({
       });
 
       // --- ФЕТЧИМ актуального пользователя ---
-      const updatedUserRes = await fetch(
-        `http://localhost:3001/users/${userIdStr}`
-      );
+      const updatedUserRes = await fetch(`${BASE_URL}/users/${userIdStr}`);
       const updatedUser = await updatedUserRes.json();
 
       dispatch(setProgress(updatedUser.progress));
@@ -93,7 +92,7 @@ export const utilsHandleLikeDislike = async ({
   };
 
   try {
-    await fetch("http://localhost:3001/likes", {
+    await fetch(`${BASE_URL}/likes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newLike),
