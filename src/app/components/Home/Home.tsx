@@ -6,6 +6,7 @@ import NameInputModal from "../Modal/NameInputModal";
 import ModalInfo from "../Modal/ModalInfo";
 import FutureStack from "../FutureStack/FutureStack";
 import { handleAchievement } from "@/app/utils/handleAchievement";
+import BASE_URL from "@/app/utils/apiConfig";
 import { addClickedTech } from "@/app/slices/userSlice";
 import { RootState } from "@/app/slices/Store";
 import Link from "next/link";
@@ -32,7 +33,7 @@ const HomeComponents: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:3001/info");
+        const res = await fetch(`${BASE_URL}/info`);
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
