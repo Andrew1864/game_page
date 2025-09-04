@@ -109,14 +109,15 @@ const HomeComponents: React.FC = () => {
         <div className="w-full md:w-1/2 text-center md:text-left">
           <h1 className="text-4xl font-bold text-gray-900">Андрей</h1>
           <p className="mt-4 text-gray-600 text-lg">
-            Начинающий программист, Frontend-разработчик. Этот проект моё
-            портфолио. Тут я показываю чему я смог научиться.
+            Превращаю идеи в цифровую реальность через код. Это портфолио —
+            живое свидетельство моего пути в frontend-разработке, где каждый
+            проект отражает освоение новых технологий и лучших практик.
           </p>
           <button
             onClick={handleOpenModal}
             className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
           >
-            <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
             <span
               className={`relative z-10  ${
                 userId && clickedTechs.includes("Начать")
@@ -159,16 +160,16 @@ const HomeComponents: React.FC = () => {
           }
         }
         .animate-marquee {
-          animation: marquee 10s linear infinite;
+          animation: marquee 20s linear infinite;
         }
       `}</style>
-      <section className="w-full bg-white mt-2 max-w-full flex flex-col items-center gap-12 py-20">
+      <section className="w-full bg-white mt-2 max-w-full flex flex-col items-center gap-12 py-4">
         {/* Заголовок */}
-        <h2 className="text-3xl font-bold text-gray-900 text-center w-full mb-12">
+        <h2 className="text-3xl font-bold text-gray-900 text-center w-full">
           Проекты
         </h2>
         {/* Проект 1 */}
-        <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
+        <div className="w-full flex flex-col md:flex-row items-center gap-12 ">
           {/* Картинка с текстом */}
           <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
             <h2 className="text-5xl font-bold text-gray-600 uppercase">
@@ -183,7 +184,7 @@ const HomeComponents: React.FC = () => {
               мини игра.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/InfoNews"
                 onClick={() => {
@@ -217,7 +218,7 @@ const HomeComponents: React.FC = () => {
               корзины товаров.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/Maryshop"
                 onClick={() => {
@@ -250,7 +251,7 @@ const HomeComponents: React.FC = () => {
               загрязнение воздуха.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/GreenPulse"
                 onClick={() => {
@@ -268,7 +269,7 @@ const HomeComponents: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="w-full max-w-[1260px] mx-auto py-20">
+      <section className="w-full max-w-[1260px] mx-auto py-3">
         <FutureStack />
       </section>
       <NameInputModal open={openModal} onClose={handleClose} />
