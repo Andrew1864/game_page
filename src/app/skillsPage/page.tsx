@@ -5,8 +5,14 @@ import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../slices/Store";
-import { nextQuestion, finishQuiz, setAnswer } from "../slices/quizSlice";
+import {
+  nextQuestion,
+  finishQuiz,
+  setAnswer,
+  resetQuiz,
+} from "../slices/quizSlice";
 import { handleAchievement } from "../utils/handleAchievement";
+import BASE_URL from "../utils/apiConfig";
 import CardForTest from "../components/Card/CardForTest";
 import SuccessModal from "../components/Modal/SuccessModal";
 
@@ -22,6 +28,7 @@ const SkillsPage = () => {
   const [seconds, setSeconds] = useState(0);
   const [started, setStarted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isReplay, setIsReplay] = useState(false);
 
   // --- REDUX STATE ---
   const userId = useSelector((state: RootState) => state.user.userId); // id пользователя
@@ -46,7 +53,7 @@ const SkillsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/quiz");
+        const response = await fetch(`${BASE_URL}/quiz`);
         if (!response.ok)
           throw new Error(`HTTP error! Status: ${response.status}`);
         const data: QuizType[] = await response.json();
@@ -88,6 +95,16 @@ const SkillsPage = () => {
   );
   const wrongCount = tests.length - correctCount;
 
+  // функция для повторной игры без начисления очков
+  const handleAgainStart = () => {
+    if (isFinished) {
+      dispatch(resetQuiz());
+      setStarted(true);
+      setSeconds(0);
+      setIsReplay(true);
+    }
+  };
+
   /**
    * Завершить квиз:
    * - отправляет экшен finishQuiz (для сохранения результата)
@@ -103,25 +120,28 @@ const SkillsPage = () => {
       (ach) => ach.title === "Пройден мини-квиз"
     );
 
-    if (correctCount === tests.length && userId !== null && !hasAchievement) {
-      // Все ответы верны и ачивки ещё нет — даём ачивку и 50 очков
-      handleAchievement({
-        userId: userId,
-        dispatch,
-        context: "мини-квиз",
-        mode: "quiz",
-        isAdd: true,
-      });
-    } else if (userId !== null) {
-      // Есть ошибки — даём только 10 очков за попытку (ачивка не начисляется)
-      handleAchievement({
-        userId: userId,
-        dispatch,
-        context: "Попытка мини-квиз",
-        mode: "quizAttempt",
-        isAdd: true,
-        showCustomAlert: true,
-      });
+    if (!isReplay) {
+      if (correctCount === tests.length && userId !== null && !hasAchievement) {
+        // Все ответы верны и ачивки ещё нет — даём ачивку и 50 очков
+        handleAchievement({
+          userId: userId,
+          dispatch,
+          context: "мини-квиз",
+          mode: "quiz",
+          isAdd: true,
+        });
+      } else if (userId !== null) {
+        // Есть ошибки — даём только 10 очков за попытку (ачивка не начисляется)
+        handleAchievement({
+          userId: userId,
+          dispatch,
+          context: "Попытка мини-квиз",
+          mode: "quizAttempt",
+          isAdd: true,
+          showCustomAlert: true,
+        });
+      }
+      setIsReplay(true)
     }
     setModalOpen(true);
   };
@@ -147,6 +167,14 @@ const SkillsPage = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
+          <button
+            type="button"
+            className="text-gray-900 bg-white border border-gray-300 focus:outline-none
+                hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-6 py-2 transition cursor-pointer"
+            onClick={handleAgainStart}
+          >
+            Начать заново
+          </button>
           {!started && (
             <button
               type="button"
@@ -202,6 +230,7 @@ const SkillsPage = () => {
               ) : (
                 <button
                   className="bg-green-600 text-white px-6 py-2 rounded-lg cursor-pointer"
+                  disabled={isFinished}
                   onClick={handleFinish}
                 >
                   Завершить
