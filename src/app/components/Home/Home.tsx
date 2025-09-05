@@ -174,15 +174,15 @@ const HomeComponents: React.FC = () => {
           <div className="w-full ml-3.5 md:w-1/2 h-80 rounded-xl shadow-lg overflow-hidden relative">
             <div
               style={{
-                backgroundImage: "url('/work.jpg')",
+                backgroundImage: "url('/program2.jpg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
               className="absolute inset-0 opacity-100"
             ></div>
             {/* Темный оверлей */}
-            <div className="absolute inset-0 bg-[#272727]/90"></div>
-            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-600 uppercase flex items-center justify-center">
+           <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
               InfoNews
             </h2>
           </div>
@@ -224,8 +224,8 @@ const HomeComponents: React.FC = () => {
               className="absolute inset-0 opacity-100"
             ></div>
             {/* Темный оверлей */}
-            <div className="absolute inset-0 bg-[#272727]/90"></div>
-            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-600 uppercase flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
               MaryShop
             </h2>
           </div>
@@ -261,15 +261,15 @@ const HomeComponents: React.FC = () => {
           <div className="w-full ml-3.5 md:w-1/2 h-80 rounded-xl shadow-lg overflow-hidden relative">
             <div
               style={{
-                backgroundImage: "url('/program2.jpg')",
+                backgroundImage: "url('/work.jpg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
               className="absolute inset-0 opacity-100"
             ></div>
             {/* Темный оверлей */}
-            <div className="absolute inset-0 bg-[#272727]/90"></div>
-            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-600 uppercase flex items-center justify-center">
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
               GreenPulse
             </h2>
           </div>
