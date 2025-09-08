@@ -18,16 +18,42 @@ interface InfoItem {
   type: string;
 }
 
+const clueMessage = [
+  "👋 Привет! Введи своё имя, и игра начнётся!",
+  "👉 Исследуй сайт — кликай на технологии и проекты.",
+  "🏆 Загляни в достижения — там ждут награды!",
+  "💬 Оставь комментарий",
+  "🚀 Готов? Давай начнём приключение!",
+];
+
 const HomeComponents: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
   const [infoData, setInfoData] = useState<InfoItem[]>([]);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
 
   const userId = useSelector((state: RootState) => state.user.userId);
   const clickedTechs = useSelector(
     (state: RootState) => state.user.clickedTechs
   );
   const dispatch = useDispatch();
+
+  // useEffect для сообщения
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowMessage(true);
+      setTimeout(() => {
+        setShowMessage(false);
+        // Меняем индекс только ПОСЛЕ скрытия (через доп. задержку)
+        setTimeout(() => {
+          setMessageIndex((prev) => (prev + 1) % clueMessage.length);
+        }, 700);
+      }, 2500);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Загружаем данные из db.json
   useEffect(() => {
@@ -115,7 +141,7 @@ const HomeComponents: React.FC = () => {
           </p>
           <button
             onClick={handleOpenModal}
-            className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+            className="mt-4  inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
           >
             <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
             <span
@@ -128,6 +154,20 @@ const HomeComponents: React.FC = () => {
               Начать
             </span>
           </button>
+          <div
+            className={`
+             mt-6
+             px-6 py-3 rounded-xl
+             bg-[#23272f] 
+             text-[#868580] 
+             text-lg font-bold shadow 
+            transition-opacity duration-700
+             ${showMessage ? "opacity-100" : "opacity-0 pointer-events-none"}
+            `}
+            style={{ minWidth: 260, textAlign: "center" }}
+          >
+            {clueMessage[messageIndex]}
+          </div>
         </div>
       </section>
       {/* Технологии */}
@@ -181,7 +221,7 @@ const HomeComponents: React.FC = () => {
               className="absolute inset-0 opacity-100"
             ></div>
             {/* Темный оверлей */}
-           <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
             <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
               InfoNews
             </h2>
