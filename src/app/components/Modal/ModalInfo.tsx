@@ -38,7 +38,7 @@ const ModalInfo: React.FC<ModalInfoProps> = ({
       }}
     >
       <div className="bg-white p-6 rounded-xl w-[90%] sm:w-[400px] text-center border border-gray-300">
-        <h2 className="text-xl font-bold mb-2">{title}</h2>
+        <h2 className="text-xl text-black font-bold mb-2">{title}</h2>
         <p className="mb-4 text-gray-700">{description}</p>
         <button
           onClick={onClose}
