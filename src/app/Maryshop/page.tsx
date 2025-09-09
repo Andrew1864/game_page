@@ -108,67 +108,105 @@ const Maryshop = () => {
               <span className="text-lg font-medium">Назад</span>
             </Link>
           </div>
-          <div className="flex flex-wrap -mx-4">
-            {/* Левая часть с изображениями */}
-            <div className="w-full md:w-1/2 px-4 mb-8">
-              <VideoPlayer videos={maryshopVideo} />
-              <div className="flex gap-4 py-4 justify-center overflow-x-auto">
-                <Gallery screenshots={maryshopScreenshots} />
+          <div className="flex flex-wrap -mx-4 items-start">
+            {/* Левая часть с видео и изображениями */}
+            <div className="w-full md:w-1/2 px-4">
+              <div className="flex flex-col">
+                <div className="relative w-full h-[450px] mb-4">
+                  <VideoPlayer videos={maryshopVideo} />
+                </div>
+                <div className="flex gap-4 py-4 justify-center overflow-x-auto">
+                  <Gallery screenshots={maryshopScreenshots} />
+                </div>
               </div>
             </div>
             {/* Правая часть с текстом */}
             <div className="w-full md:w-1/2 px-4">
-              <h2 className="text-3xl font-bold mb-4">Maryshop</h2>
-              <p className="text-gray-700 mb-6 text-lg">
-                В этом проекте реализовано - корзина товаров. Тут есть и
-                регистрация, так же есть JSON-server. Добавление и удаление из
-                корзины товаров.
-              </p>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">
-                  Для запуска проекта локально:
-                </h3>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>
-                    Установка зависимостей: <b>npm install</b>
-                  </li>
-                  <li>
-                    Запуск сервера: <b>npm install</b>
-                  </li>
-                  <li>
-                    Запуск проекта: <b>npm run dev</b>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex items-center gap-2 mt-6 mb-3">
-                <a
-                  href="https://github.com/Andrew1864/InfoNews/tree/Andrew"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition"
-                >
-                  <GitHubIcon className="w-8 h-8 text-gray-800" />
-                </a>
-                <span className="text-lg font-semibold text-gray-700">
-                  GitHub
-                </span>
-              </div>
-              <div className="flex gap-6 mt-3">
-                <div
-                  className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
-                    hasLiked ? "bg-green-200" : ""
-                  }`}
-                  onClick={() => handleLikeDislike("like")}
-                >
-                  <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
+              <div className="flex flex-col justify-start h-full">
+                <h2 className="text-3xl font-bold mb-4">MaryShop</h2>
+                <div className="space-y-4 mb-6">
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    <span className="font-semibold text-pink-800">
+                      MaryShop
+                    </span>{" "}
+                    — полнофункциональный интернет-магазин, разработанный на
+                    React с использованием Vite. Проект демонстрирует
+                    комплексный подход к созданию e-commerce приложений.
+                  </p>
+                  <div className="bg-pink-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-pink-900 mb-2">
+                      🛍️ Ключевые функции:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      <li>
+                        👤{" "}
+                        <span className="font-medium">
+                          Система регистрации и авторизации
+                        </span>{" "}
+                        пользователей
+                      </li>
+                      <li>
+                        🛒 <span className="font-medium">Корзина товаров</span>{" "}
+                        — добавление, удаление, изменение количества
+                      </li>
+                      <li>
+                        ❤️ <span className="font-medium">Избранное</span> —
+                        сохранение понравившихся товаров
+                      </li>
+                      <li>
+                        👑 <span className="font-medium">Админ-панель</span> —
+                        управление товарами и заказами
+                      </li>
+                      <li>
+                        📦{" "}
+                        <span className="font-medium">
+                          Работа с JSON-server
+                        </span>{" "}
+                        — имитация backend API
+                      </li>
+                      <li>
+                        🎨{" "}
+                        <span className="font-medium">Адаптивный дизайн</span> —
+                        корректное отображение на всех устройствах
+                      </li>
+                    </ul>
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    Проект включает полный цикл работы с данными: от CRUD
+                    операций до реализации сложной бизнес-логики корзины покупок
+                    и системы пользовательских предпочтений.
+                  </p>
                 </div>
-                <div
-                  className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
-                    hasDisliked ? "bg-red-200" : ""
-                  }`}
-                  onClick={() => handleLikeDislike("dislike")}
-                >
-                  <ThumbDownOffAltIcon className="w-8 h-8 text-red-600" />
+                <div className="flex items-center gap-2 mt-6 mb-3">
+                  <a
+                    href="https://github.com/Andrew1864/InfoNews/tree/Andrew"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105"
+                  >
+                    <GitHubIcon className="w-8 h-8 text-gray-800" />
+                  </a>
+                  <span className="text-lg font-semibold text-gray-700">
+                    Исходный код на GitHub
+                  </span>
+                </div>
+                <div className="flex gap-6 mt-3">
+                  <div
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105 ${
+                      hasLiked ? "bg-green-200 border-2 border-green-400" : ""
+                    }`}
+                    onClick={() => handleLikeDislike("like")}
+                  >
+                    <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
+                  </div>
+                  <div
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105 ${
+                      hasDisliked ? "bg-red-200 border-2 border-red-400" : ""
+                    }`}
+                    onClick={() => handleLikeDislike("dislike")}
+                  >
+                    <ThumbDownOffAltIcon className="w-8 h-8 text-red-600" />
+                  </div>
                 </div>
               </div>
             </div>

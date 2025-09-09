@@ -124,48 +124,71 @@ const InfoNews = () => {
             <div className="w-full md:w-1/2 px-4">
               <div className="flex flex-col justify-start h-full">
                 <h2 className="text-3xl font-bold mb-4">InfoNews</h2>
-                <p className="text-gray-700 mb-6 text-lg">
-                  В этом проекте я получаю API. Там имеется погода, биржа и даже
-                  мини игра.
-                </p>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">
-                    Для запуска проекта локально:
-                  </h3>
-                  <ul className="list-disc list-inside text-gray-700">
-                    <li>
-                      Установка зависимостей: <b>npm install</b>
-                    </li>
-                    <li>
-                      Запуск проекта: <b>npm run dev</b>
-                    </li>
-                  </ul>
+                <div className="space-y-4 mb-6">
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    <span className="font-semibold text-blue-800">
+                      InfoNews
+                    </span>{" "}
+                    — это многофункциональное веб-приложение, которое
+                    демонстрирует мои навыки работы с внешними API и создание
+                    интерактивных пользовательских интерфейсов.
+                  </p>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-blue-900 mb-2">
+                      🌟 Основные возможности:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      <li>
+                        📰 <span className="font-medium">Новостная лента</span>{" "}
+                        — получение актуальных новостей из различных источников
+                        через News API
+                      </li>
+                      <li>
+                        🌤️ <span className="font-medium">Прогноз погоды</span> —
+                        отображение текущей погоды и прогноза на несколько дней
+                      </li>
+                      <li>
+                        📊 <span className="font-medium">Биржевые данные</span>{" "}
+                        — мониторинг курсов валют и акций в реальном времени
+                      </li>
+                      <li>
+                        🎮 <span className="font-medium">Мини-игра</span> —
+                        интерактивный компонент для развлечения пользователей
+                      </li>
+                    </ul>
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    В этом проекте я отрабатывал работу с асинхронными
+                    запросами, обработкой данных от различных API и созданием
+                    адаптивного интерфейса с использованием современных
+                    фронтенд-технологий.
+                  </p>
                 </div>
                 <div className="flex items-center gap-2 mt-6 mb-3">
                   <a
                     href="https://github.com/Andrew1864/InfoNews/tree/Andrew"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition"
+                    className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105"
                   >
                     <GitHubIcon className="w-8 h-8 text-gray-800" />
                   </a>
                   <span className="text-lg font-semibold text-gray-700">
-                    GitHub
+                    Исходный код на GitHub
                   </span>
                 </div>
                 <div className="flex gap-6 mt-3">
                   <div
-                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
-                      hasLiked ? "bg-green-200" : ""
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105 ${
+                      hasLiked ? "bg-green-200 border-2 border-green-400" : ""
                     }`}
                     onClick={() => handleLikeDislike("like")}
                   >
                     <ThumbUpOffAltIcon className="w-8 h-8 text-green-600" />
                   </div>
                   <div
-                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition ${
-                      hasDisliked ? "bg-red-200" : ""
+                    className={`flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105 ${
+                      hasDisliked ? "bg-red-200 border-2 border-red-400" : ""
                     }`}
                     onClick={() => handleLikeDislike("dislike")}
                   >

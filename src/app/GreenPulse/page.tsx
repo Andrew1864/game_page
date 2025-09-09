@@ -32,7 +32,7 @@ const GreenPulse = () => {
     const achievementsSafe = Array.isArray(achievements) ? achievements : [];
 
     const hasAchievement = achievementsSafe.some(
-      (ach) => ach.title === "Зашёл в InfoNews"
+      (ach) => ach.title === "Зашёл в Green_Pulse"
     );
 
     if (!hasAchievement) {
@@ -59,7 +59,7 @@ const GreenPulse = () => {
     }
   }, [userId, achievements, dispatch]);
 
-  const infoNewsScreenshots = [
+  const greenPulseScreenshots = [
     "https://i.imgur.com/JLDP6fr.png",
     "https://i.imgur.com/oCka4yv.png",
     "https://i.imgur.com/RhxNOxV.png",
@@ -113,55 +113,99 @@ const GreenPulse = () => {
                   <VideoPlayer videos={videoPlayer} />
                 </div>
                 <div className="flex gap-4 py-4 justify-center overflow-x-auto">
-                  <Gallery screenshots={infoNewsScreenshots} />
+                  <Gallery screenshots={greenPulseScreenshots} />
                 </div>
               </div>
             </div>
+            {/* Правая часть с текстом */}
             <div className="w-full md:w-1/2 px-4">
               <div className="flex flex-col justify-start h-full">
-                <h2 className="text-3xl font-bold mb-4">Green_Pulse</h2>
-                <p className="text-gray-700 mb-6 text-lg">
-                  В этом проекте, я с коллегой реализовываем информацию о
-                  загрязнение воздуха, так же у нас там есть калькулятор.
-                </p>
-                <div className="mb-5">
-                  <h3 className="text-lg font-semibold mb-2">
-                    Для запуска проекта локально:
-                  </h3>
-                  <h5 className="text-lg  mb-2">Для запуска бекенда:</h5>
-                  <ul className="list-disc list-inside text-gray-700">
-                    <li>
-                      Установка зависимостей:{" "}
-                      <b>pip install -r requirements.txt</b>
-                    </li>
-                    <li>
-                      Активация виртуального окружения:{" "}
-                      <b>venv\Scripts\activate</b>
-                    </li>
-                    <li>
-                      Так же должен быть Redis и установка Celery:{" "}
-                      <b>
-                        python -m celery -A core worker --loglevel=INFO
-                        --pool=solo
-                      </b>
-                    </li>
-                    <li>
-                      Запуск проекта: <b>python manage.py runserver 8080</b>
-                    </li>
-                  </ul>
-                  <ul className="list-disc list-inside text-gray-700 mt-4">
-                    <h5 className="text-lg  mb-2">Для запуска фронтенд:</h5>
-                    <li>
-                      Запуск проекта: <b>npm run dev</b>
-                    </li>
-                  </ul>
+                <h2 className="text-3xl font-bold mb-4">Green Pulse</h2>
+                <div className="space-y-4 mb-6">
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    <span className="font-semibold text-green-800">
+                      Green Pulse
+                    </span>{" "}
+                    — экологический веб-проект, разработанный в команде для
+                    мониторинга качества воздуха и анализа экологической
+                    обстановки в различных городах.
+                  </p>
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-green-900 mb-2">
+                      🌱 Ключевые функции:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      <li>
+                        🏙️{" "}
+                        <span className="font-medium">
+                          Мониторинг качества воздуха
+                        </span>{" "}
+                        — данные по различным городам в реальном времени
+                      </li>
+                      <li>
+                        🧮{" "}
+                        <span className="font-medium">
+                          Экологический калькулятор
+                        </span>{" "}
+                        — расчет уровня загрязнения и рекомендации
+                      </li>
+                      <li>
+                        📧{" "}
+                        <span className="font-medium">
+                          Верияфикация по email
+                        </span>{" "}
+                        — отправка кода подтверждения на почту
+                      </li>
+                      <li>
+                        📊{" "}
+                        <span className="font-medium">Визуализация данных</span>{" "}
+                        — графики и диаграммы качества воздуха
+                      </li>
+                      <li>
+                        🌍 <span className="font-medium">Геолокация</span> —
+                        автоматическое определение местоположения
+                      </li>
+                      <li>
+                        🔔 <span className="font-medium">Уведомления</span> —
+                        оповещения о качестве воздуха
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h4 className="font-semibold text-blue-900 mb-2">
+                      👥 Распределение задач:
+                    </h4>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      <li>
+                        🎨{" "}
+                        <span className="font-medium">
+                          Фронтенд (моя часть)
+                        </span>{" "}
+                        — разработка пользовательского интерфейса, реализация
+                        калькулятора, визуализация данных
+                      </li>
+                      <li>
+                        ⚙️{" "}
+                        <span className="font-medium">
+                          Бэкенд + фронтенд (коллега)
+                        </span>{" "}
+                        — настройка серверной части, работа с API, email
+                        верификация, базы данных
+                      </li>
+                    </ul>
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    Проект демонстрирует опыт командной работы и разделения
+                    обязанностей по принципу full-stack разработки, где каждый
+                    участник отвечал за свою область экспертизы.
+                  </p>
                 </div>
                 <div className="flex gap-6 mt-3">
                   <div
                     onClick={() => handleLikeDislike("like")}
-                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
+                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition hover:scale-105 ${
                       hasLiked
-                        ? "bg-green-300"
+                        ? "bg-green-300 border-2 border-green-500"
                         : "bg-gray-200 hover:bg-gray-300"
                     }`}
                   >
@@ -169,9 +213,9 @@ const GreenPulse = () => {
                   </div>
                   <div
                     onClick={() => handleLikeDislike("dislike")}
-                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition ${
+                    className={`flex items-center justify-center w-16 h-16 rounded-xl shadow-md cursor-pointer transition hover:scale-105 ${
                       hasDisliked
-                        ? "bg-red-300"
+                        ? "bg-red-300 border-2 border-red-500"
                         : "bg-gray-200 hover:bg-gray-300"
                     }`}
                   >

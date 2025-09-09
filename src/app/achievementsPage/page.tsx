@@ -108,7 +108,7 @@ const AchievementsPage = () => {
         </div>
         <div className="w-full border-b border-gray-300 mt-6"></div>
         <h4 className="mb-2 text-2xl  font-extrabold">Список достижений.</h4>
-        <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-full mb-2 max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mergedItems.map((item, index) => (
             <AchievementCard
               key={index}

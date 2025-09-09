@@ -18,16 +18,42 @@ interface InfoItem {
   type: string;
 }
 
+const clueMessage = [
+  "👋 Привет! Введи своё имя, и игра начнётся!",
+  "👉 Исследуй сайт — кликай на технологии и проекты.",
+  "🏆 Загляни в достижения — там ждут награды!",
+  "💬 Оставь комментарий",
+  "🚀 Готов? Давай начнём приключение!",
+];
+
 const HomeComponents: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedTech, setSelectedTech] = useState<InfoItem | null>(null);
   const [infoData, setInfoData] = useState<InfoItem[]>([]);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageIndex, setMessageIndex] = useState(0);
 
   const userId = useSelector((state: RootState) => state.user.userId);
   const clickedTechs = useSelector(
     (state: RootState) => state.user.clickedTechs
   );
   const dispatch = useDispatch();
+
+  // useEffect для сообщения
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowMessage(true);
+      setTimeout(() => {
+        setShowMessage(false);
+        // Меняем индекс только ПОСЛЕ скрытия (через доп. задержку)
+        setTimeout(() => {
+          setMessageIndex((prev) => (prev + 1) % clueMessage.length);
+        }, 700);
+      }, 2500);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Загружаем данные из db.json
   useEffect(() => {
@@ -109,14 +135,15 @@ const HomeComponents: React.FC = () => {
         <div className="w-full md:w-1/2 text-center md:text-left">
           <h1 className="text-4xl font-bold text-gray-900">Андрей</h1>
           <p className="mt-4 text-gray-600 text-lg">
-            Начинающий программист, Frontend-разработчик. Этот проект моё
-            портфолио. Тут я показываю чему я смог научиться.
+            Превращаю идеи в цифровую реальность через код. Это портфолио —
+            живое свидетельство моего пути в frontend-разработке, где каждый
+            проект отражает освоение новых технологий и лучших практик.
           </p>
           <button
             onClick={handleOpenModal}
-            className="mt-4 inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+            className="mt-4  inline-block w-full px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
           >
-            <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
             <span
               className={`relative z-10  ${
                 userId && clickedTechs.includes("Начать")
@@ -127,6 +154,20 @@ const HomeComponents: React.FC = () => {
               Начать
             </span>
           </button>
+          <div
+            className={`
+             mt-6
+             px-6 py-3 rounded-xl
+             bg-[#23272f] 
+             text-[#868580] 
+             text-lg font-bold shadow 
+            transition-opacity duration-700
+             ${showMessage ? "opacity-100" : "opacity-0 pointer-events-none"}
+            `}
+            style={{ minWidth: 260, textAlign: "center" }}
+          >
+            {clueMessage[messageIndex]}
+          </div>
         </div>
       </section>
       {/* Технологии */}
@@ -159,19 +200,29 @@ const HomeComponents: React.FC = () => {
           }
         }
         .animate-marquee {
-          animation: marquee 10s linear infinite;
+          animation: marquee 20s linear infinite;
         }
       `}</style>
-      <section className="w-full bg-white mt-2 max-w-full flex flex-col items-center gap-12 py-20">
+      <section className="w-full bg-white mt-2 max-w-full flex flex-col items-center gap-12 py-4">
         {/* Заголовок */}
-        <h2 className="text-3xl font-bold text-gray-900 text-center w-full mb-12">
+        <h2 className="text-3xl font-bold text-gray-900 text-center w-full">
           Проекты
         </h2>
         {/* Проект 1 */}
-        <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
+        <div className="w-full flex flex-col md:flex-row items-center gap-12 ">
           {/* Картинка с текстом */}
-          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
-            <h2 className="text-5xl font-bold text-gray-600 uppercase">
+          <div className="w-full ml-3.5 md:w-1/2 h-80 rounded-xl shadow-lg overflow-hidden relative">
+            <div
+              style={{
+                backgroundImage: "url('/program2.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              className="absolute inset-0 opacity-100"
+            ></div>
+            {/* Темный оверлей */}
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
               InfoNews
             </h2>
           </div>
@@ -183,7 +234,7 @@ const HomeComponents: React.FC = () => {
               мини игра.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/InfoNews"
                 onClick={() => {
@@ -203,9 +254,19 @@ const HomeComponents: React.FC = () => {
         {/* Проект 2 */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
           {/* Картинка с эффектом */}
-          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
-            <h2 className="text-5xl font-bold text-gray-600 uppercase">
-              Maryshop
+          <div className="w-full ml-3.5 md:w-1/2 h-80 rounded-xl shadow-lg overflow-hidden relative">
+            <div
+              style={{
+                backgroundImage: "url('/program.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              className="absolute inset-0 opacity-100"
+            ></div>
+            {/* Темный оверлей */}
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
+              MaryShop
             </h2>
           </div>
           {/* Описание проекта */}
@@ -217,7 +278,7 @@ const HomeComponents: React.FC = () => {
               корзины товаров.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/Maryshop"
                 onClick={() => {
@@ -237,9 +298,19 @@ const HomeComponents: React.FC = () => {
         {/* Проект 3 */}
         <div className="w-full flex flex-col md:flex-row items-center gap-12 mb-12">
           {/* Картинка с эффектом */}
-          <div className="w-full ml-3.5 md:w-1/2 h-80 bg-[#272727] rounded-xl shadow-lg overflow-hidden flex items-center justify-center">
-            <h2 className="text-5xl font-bold text-gray-600 uppercase">
-              Green_pulse
+          <div className="w-full ml-3.5 md:w-1/2 h-80 rounded-xl shadow-lg overflow-hidden relative">
+            <div
+              style={{
+                backgroundImage: "url('/work.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              className="absolute inset-0 opacity-100"
+            ></div>
+            {/* Темный оверлей */}
+            <div className="absolute inset-0 bg-[#272727]/60"></div>
+            <h2 className="absolute inset-0 text-5xl sm:text-7xl md:text-9xl font-bold text-gray-300 uppercase flex items-center justify-center">
+              GreenPulse
             </h2>
           </div>
           {/* Описание проекта */}
@@ -250,7 +321,7 @@ const HomeComponents: React.FC = () => {
               загрязнение воздуха.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
-              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
               <Link
                 href="/GreenPulse"
                 onClick={() => {
@@ -268,7 +339,7 @@ const HomeComponents: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="w-full max-w-[1260px] mx-auto py-20">
+      <section className="w-full max-w-[1260px] mx-auto py-3">
         <FutureStack />
       </section>
       <NameInputModal open={openModal} onClose={handleClose} />

@@ -85,16 +85,16 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
       }}
     >
       <div className="bg-white rounded-xl p-6 w-[90%] max-w-md text-center shadow-xl">
-        <h2 className="text-2xl font-bold mb-4">Введите свое имя</h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Введите свое имя</h2>
         <input
           type="text"
-          className="w-full border rounded p-2 mb-4"
+          className="w-full border border-gray-700 rounded p-2 mb-4"
           placeholder="Имя"
           value={name}
           onChange={handleNameChange}
         />
         <button
-          className="w-full bg-gray-800 text-white font-semibold rounded-xl py-2 hover:bg-gray-900 transition"
+          className="w-full bg-gray-800 text-white font-semibold rounded-xl py-2 hover:bg-gray-900 transition cursor-pointer"
           onClick={handleSubmit}
         >
           Подтвердить
