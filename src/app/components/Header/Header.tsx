@@ -48,8 +48,11 @@ const Header = () => {
     <header className="bg-white rounded-xl shadow-lg">
       <div className="mx-auto flex mt-2 h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
         {/* Логотип */}
-        <a className="block text-black text-xl font-bold" href="/">
-          My Portfolio
+        <a
+          className="block text-2xl font-light font-serif italic tracking-wide text-black hover:text-gray-600 transition-colors"
+          href="/"
+        >
+          Моё Портфолио
         </a>
         {/* Кнопка мобильного меню */}
         <button
