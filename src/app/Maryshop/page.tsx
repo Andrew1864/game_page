@@ -179,7 +179,7 @@ const Maryshop = () => {
                 </div>
                 <div className="flex items-center gap-2 mt-6 mb-3">
                   <a
-                    href="https://github.com/Andrew1864/InfoNews/tree/Andrew"
+                    href="https://github.com/Andrew1864/Mary-Shop"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center w-16 h-16 bg-gray-200 rounded-xl shadow-md cursor-pointer hover:bg-gray-300 transition hover:scale-105"
