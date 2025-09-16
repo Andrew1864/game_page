@@ -4,16 +4,12 @@ import { GitHub, Telegram, WorkOutline } from "@mui/icons-material";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white  text-center">
+    <footer className="bg-black text-white mx-auto text-center">
       {/* Верхняя часть футера */}
       <div className="container mx-auto px-4 flex flex-col items-center">
-        <p className="text-lg text-gray-300 mb-2">
-          Предложите мне идею что реализовать.
-        </p>
-        <h2 className="text-4xl font-bold mb-2">Есть проект</h2>
-        <p className="text-lg text-gray-300">Давайте разговаривать.</p>
+        <h2 className="text-4xl font-bold mb-2">Наш проект</h2>
+        <p className="text-lg text-gray-300">Давайте разговаривать?</p>
       </div>
-      {/* Имя на всю ширину */}
       <div className="w-full text-5xl sm:text-7xl md:text-9xl font-bold text-gray-700 uppercase flex items-center justify-center">
         frontend
       </div>
@@ -37,11 +33,6 @@ const Footer = () => {
             >
               <WorkOutline fontSize="large" />
             </a>
-          </div>
-          {/* Контактная информация */}
-          <div className="text-gray-400">
-            <p>Доступен для проектов</p>
-            <p>&copy; {new Date().getFullYear()} Андрей. Все права защищены.</p>
           </div>
         </div>
       </div>
