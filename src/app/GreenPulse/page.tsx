@@ -132,63 +132,58 @@ const GreenPulse = () => {
                   </p>
                   <div className="bg-green-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-green-900 mb-2">
-                      🌱 Ключевые функции:
+                      Ключевые функции:
                     </h4>
                     <ul className="list-disc list-inside text-gray-700 space-y-1">
                       <li>
-                        🏙️{" "}
+                        {" "}
                         <span className="font-medium">
                           Мониторинг качества воздуха
-                        </span>{" "}
+                        </span>
                         — данные по различным городам в реальном времени
                       </li>
                       <li>
-                        🧮{" "}
                         <span className="font-medium">
                           Экологический калькулятор
-                        </span>{" "}
+                        </span>
                         — расчет уровня загрязнения и рекомендации
                       </li>
                       <li>
-                        📧{" "}
                         <span className="font-medium">
                           Верияфикация по email
-                        </span>{" "}
+                        </span>
                         — отправка кода подтверждения на почту
                       </li>
                       <li>
-                        📊{" "}
                         <span className="font-medium">Визуализация данных</span>{" "}
                         — графики и диаграммы качества воздуха
                       </li>
                       <li>
-                        🌍 <span className="font-medium">Геолокация</span> —
+                        <span className="font-medium">Геолокация</span> —
                         автоматическое определение местоположения
                       </li>
                       <li>
-                        🔔 <span className="font-medium">Уведомления</span> —
+                        <span className="font-medium">Уведомления</span> —
                         оповещения о качестве воздуха
                       </li>
                     </ul>
                   </div>
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-blue-900 mb-2">
-                      👥 Распределение задач:
+                      Распределение задач:
                     </h4>
                     <ul className="list-disc list-inside text-gray-700 space-y-1">
                       <li>
-                        🎨{" "}
                         <span className="font-medium">
                           Фронтенд (моя часть)
-                        </span>{" "}
+                        </span>
                         — разработка пользовательского интерфейса, реализация
                         калькулятора, визуализация данных
                       </li>
                       <li>
-                        ⚙️{" "}
                         <span className="font-medium">
                           Бэкенд + фронтенд (коллега)
-                        </span>{" "}
+                        </span>
                         — настройка серверной части, работа с API, email
                         верификация, базы данных
                       </li>

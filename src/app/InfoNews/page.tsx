@@ -135,24 +135,24 @@ const InfoNews = () => {
                   </p>
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-blue-900 mb-2">
-                      🌟 Основные возможности:
+                      Основные возможности:
                     </h4>
                     <ul className="list-disc list-inside text-gray-700 space-y-1">
                       <li>
-                        📰 <span className="font-medium">Новостная лента</span>{" "}
-                        — получение актуальных новостей из различных источников
+                        <span className="font-medium">Новостная лента</span>—
+                        получение актуальных новостей из различных источников
                         через News API
                       </li>
                       <li>
-                        🌤️ <span className="font-medium">Прогноз погоды</span> —
+                        <span className="font-medium">Прогноз погоды</span> —
                         отображение текущей погоды и прогноза на несколько дней
                       </li>
                       <li>
-                        📊 <span className="font-medium">Биржевые данные</span>{" "}
-                        — мониторинг курсов валют и акций в реальном времени
+                        <span className="font-medium">Биржевые данные</span>—
+                        мониторинг курсов валют и акций в реальном времени
                       </li>
                       <li>
-                        🎮 <span className="font-medium">Мини-игра</span> —
+                        <span className="font-medium">Мини-игра</span> —
                         интерактивный компонент для развлечения пользователей
                       </li>
                     </ul>

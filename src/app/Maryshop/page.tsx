@@ -135,37 +135,34 @@ const Maryshop = () => {
                   </p>
                   <div className="bg-pink-50 p-4 rounded-lg">
                     <h4 className="font-semibold text-pink-900 mb-2">
-                      🛍️ Ключевые функции:
+                      Ключевые функции:
                     </h4>
                     <ul className="list-disc list-inside text-gray-700 space-y-1">
                       <li>
-                        👤{" "}
                         <span className="font-medium">
                           Система регистрации и авторизации
-                        </span>{" "}
+                        </span>
                         пользователей
                       </li>
                       <li>
-                        🛒 <span className="font-medium">Корзина товаров</span>{" "}
-                        — добавление, удаление, изменение количества
+                        <span className="font-medium">Корзина товаров</span> —
+                        добавление, удаление, изменение количества
                       </li>
                       <li>
-                        ❤️ <span className="font-medium">Избранное</span> —
+                        <span className="font-medium">Избранное</span> —
                         сохранение понравившихся товаров
                       </li>
                       <li>
-                        👑 <span className="font-medium">Админ-панель</span> —
+                        <span className="font-medium">Админ-панель</span> —
                         управление товарами и заказами
                       </li>
                       <li>
-                        📦{" "}
                         <span className="font-medium">
                           Работа с JSON-server
-                        </span>{" "}
+                        </span>
                         — имитация backend API
                       </li>
                       <li>
-                        🎨{" "}
                         <span className="font-medium">Адаптивный дизайн</span> —
                         корректное отображение на всех устройствах
                       </li>
