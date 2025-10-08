@@ -232,13 +232,13 @@ const HomeComponents: React.FC = () => {
             <p className="mt-4 text-gray-600 text-lg">
               Проект с интеграцией API: погода, биржевые данные и мини-игра.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+            <Link
+              href="/InfoNews"
+              onClick={() => handleProjectClick("InfoNews")}
+              className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+            >
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
-              <Link
-                href="/InfoNews"
-                onClick={() => {
-                  handleProjectClick("InfoNews");
-                }}
+              <span
                 className={`relative z-10 ${
                   clickedTechs.includes("InfoNews")
                     ? "text-green-600"
@@ -246,8 +246,8 @@ const HomeComponents: React.FC = () => {
                 }`}
               >
                 Посмотреть проект
-              </Link>
-            </button>
+              </span>
+            </Link>
           </div>
         </div>
         {/* Проект 2 */}
@@ -275,10 +275,15 @@ const HomeComponents: React.FC = () => {
               Интернет-магазин с корзиной, регистрацией и JSON Server.
               Реализовано добавление и удаление товаров.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+            <Link
+              href="/Maryshop"
+              onClick={() => {
+                handleProjectClick("Maryshop");
+              }}
+              className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+            >
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
-              <Link
-                href="/Maryshop"
+              <span
                 onClick={() => {
                   handleProjectClick("Maryshop");
                 }}
@@ -289,8 +294,8 @@ const HomeComponents: React.FC = () => {
                 }`}
               >
                 Посмотреть проект
-              </Link>
-            </button>
+              </span>
+            </Link>
           </div>
         </div>
         {/* Проект 3 */}
@@ -317,13 +322,15 @@ const HomeComponents: React.FC = () => {
             <p className="mt-4 text-gray-600 text-lg">
               Совместный проект по отображению данных о загрязнении воздуха.
             </p>
-            <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
+            <Link
+              href="/GreenPulse"
+              onClick={() => {
+                handleProjectClick("Green_pulse");
+              }}
+              className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black"
+            >
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
-              <Link
-                href="/GreenPulse"
-                onClick={() => {
-                  handleProjectClick("Green_pulse");
-                }}
+              <span
                 className={`relative z-10 ${
                   clickedTechs.includes("Green_pulse")
                     ? "text-green-600"
@@ -331,8 +338,8 @@ const HomeComponents: React.FC = () => {
                 }`}
               >
                 Посмотреть проект
-              </Link>
-            </button>
+              </span>
+            </Link>
           </div>
         </div>
       </section>
