@@ -28,6 +28,24 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
     return () => setMounted(false);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleSubmit();
+      } else if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, name]);
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameInput(event.target.value);
   };
@@ -81,7 +99,8 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-40 modal-overlay"
       onClick={(e) => {
-        if ((e.target as Element).classList.contains("modal-overlay")) onClose();
+        if ((e.target as Element).classList.contains("modal-overlay"))
+          onClose();
       }}
     >
       <div className="bg-white rounded-xl p-6 w-[90%] max-w-md text-center shadow-xl">
@@ -89,7 +108,7 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
         <input
           type="text"
           className="w-full border border-gray-700 text-black rounded p-2 mb-4"
-          placeholder="Имя"
+          placeholder="Введите Имя"
           value={name}
           onChange={handleNameChange}
         />
