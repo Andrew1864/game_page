@@ -88,7 +88,7 @@ const NameInputModal: React.FC<NameInputModalProps> = ({ open, onClose }) => {
         <h2 className="text-2xl font-bold text-black mb-4">Введите свое имя</h2>
         <input
           type="text"
-          className="w-full border border-gray-700 text-gray-700 rounded p-2 mb-4"
+          className="w-full border border-gray-700 text-black rounded p-2 mb-4"
           placeholder="Имя"
           value={name}
           onChange={handleNameChange}
