@@ -230,8 +230,7 @@ const HomeComponents: React.FC = () => {
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl  font-bold text-gray-900">InfoNews</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              В этом проекте я получаю API. Там имеется погода, биржа и даже
-              мини игра.
+              Проект с интеграцией API: погода, биржевые данные и мини-игра.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
@@ -273,9 +272,8 @@ const HomeComponents: React.FC = () => {
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Maryshop</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              В этом проекте реализовано - корзина товаров. Тут есть и
-              регистрация, так же есть JSON-server. Добавление и удаление из
-              корзины товаров.
+              Интернет-магазин с корзиной, регистрацией и JSON Server.
+              Реализовано добавление и удаление товаров.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
@@ -317,8 +315,7 @@ const HomeComponents: React.FC = () => {
           <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0">
             <h1 className="text-2xl font-bold text-gray-900">Green_pulse</h1>
             <p className="mt-4 text-gray-600 text-lg">
-              А в этом проекте, я с коллегой реализовываем информацию о
-              загрязнение воздуха.
+              Совместный проект по отображению данных о загрязнении воздуха.
             </p>
             <button className="mt-4 inline-block px-8 py-3 border-2 border-black rounded-xl font-semibold transition-all duration-300 relative overflow-hidden group cursor-pointer text-black">
               <span className="absolute inset-0 bg-black w-0 group-hover:w-full transition-all duration-700"></span>
