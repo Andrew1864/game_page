@@ -2,7 +2,7 @@
 
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../slices/Store";
 import {
@@ -98,12 +98,16 @@ const SkillsPage = () => {
   };
 
   // --- Подсчёт количества правильных и неправильных ответов ---
-  const correctCount = tests.reduce(
-    (acc, test, idx) =>
-      selectedAnswer[idx] === test.correctIndex ? acc + 1 : acc,
-    0
-  );
-  const wrongCount = tests.length - correctCount;
+  const getResults = () => {
+    const correct = tests.reduce(
+      (acc, test, idx) =>
+        selectedAnswer[idx] === test.correctIndex ? acc + 1 : acc,
+      0
+    );
+    return { correct, wrong: tests.length - correct };
+  };
+
+  const results = useMemo(() => getResults(), [selectedAnswer, tests.length]);
 
   // функция для повторной игры без начисления очков
   const handleAgainStart = () => {
@@ -123,7 +127,9 @@ const SkillsPage = () => {
    * - открывает модальное окно с результатом
    */
   const handleFinish = () => {
-    dispatch(finishQuiz({ current: correctCount, incurrent: wrongCount }));
+    const { correct, wrong } = getResults();
+
+    dispatch(finishQuiz({ current: correct, incurrent: wrong }));
 
     const achievementsSafe = Array.isArray(achievements) ? achievements : [];
     const hasAchievement = achievementsSafe.some(
@@ -131,7 +137,7 @@ const SkillsPage = () => {
     );
 
     if (!isReplay) {
-      if (correctCount === tests.length && userId !== null && !hasAchievement) {
+      if (correct === tests.length && userId !== null && !hasAchievement) {
         // Все ответы верны и ачивки ещё нет — даём ачивку и 50 очков
         handleAchievement({
           userId: userId,
@@ -169,10 +175,12 @@ const SkillsPage = () => {
           </div>
           <div className="flex gap-4 mt-1 text-sm">
             <span className="flex items-center gap-1 text-green-600">
-              <ThumbUpAltIcon fontSize="small" /> Правильные: {correctCount}
+              <ThumbUpAltIcon fontSize="small" /> Правильные:{" "}
+              {isFinished ? results.correct : 0}
             </span>
             <span className="flex items-center gap-1 text-red-600">
-              <ThumbDownOffAltIcon fontSize="small" /> Ошибки: {wrongCount}
+              <ThumbDownOffAltIcon fontSize="small" /> Ошибки:{" "}
+              {isFinished ? results.wrong : 0}
             </span>
           </div>
         </div>
@@ -253,16 +261,16 @@ const SkillsPage = () => {
       <SuccessModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        isSuccess={correctCount === tests.length}
+        isSuccess={results.correct === tests.length}
         title={
-          correctCount === tests.length
+          results.correct === tests.length
             ? "Поздравляем с прохождением теста!"
             : "Тест завершён"
         }
         description={
-          correctCount === tests.length
+          results.correct === tests.length
             ? `Вы ответили правильно на все вопросы!`
-            : `Вы ответили правильно на ${correctCount} из ${tests.length} вопросов. Попробуйте снова!`
+            : `Вы ответили правильно на ${results.correct} из ${tests.length} вопросов. Попробуйте снова!`
         }
       />
     </div>
