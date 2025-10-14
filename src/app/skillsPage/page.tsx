@@ -185,14 +185,16 @@ const SkillsPage = () => {
           </div>
         </div>
         <div className="flex items-center gap-6">
-          <button
-            type="button"
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none
+          {isFinished && (
+            <button
+              type="button"
+              className="text-gray-900 bg-white border border-gray-300 focus:outline-none
                 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-6 py-2 transition cursor-pointer"
-            onClick={handleAgainStart}
-          >
-            Начать заново
-          </button>
+              onClick={handleAgainStart}
+            >
+              Начать заново
+            </button>
+          )}
           {!started && (
             <button
               type="button"
