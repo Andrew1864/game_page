@@ -95,7 +95,7 @@ const AchievementsPage = () => {
           <div className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 ">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               Имя:{" "}
-              <span className="text-xl font-bold text-black">{hrName}</span>
+              <span className="text-xl font-bold text-black dark:text-white">{hrName}</span>
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">
               <StarPurple500Icon /> Твои достижения:
@@ -107,7 +107,7 @@ const AchievementsPage = () => {
           </div>
         </div>
         <div className="w-full border-b border-gray-300 mt-6"></div>
-        <h4 className="mb-2 text-2xl  font-extrabold">Список достижений.</h4>
+        <h4 className="mb-2 text-2xl text-black font-extrabold">Список достижений.</h4>
         <div className="w-full mb-2 max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {mergedItems.map((item, index) => (
             <AchievementCard
