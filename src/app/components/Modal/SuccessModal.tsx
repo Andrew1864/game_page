@@ -23,6 +23,20 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   description,
 }) => {
   useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") return onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
     } else {
@@ -47,7 +61,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       >
         <button
           type="button"
-          className="absolute top-3 right-3 text-gray-300 hover:text-gray-600 transition"
+          className="absolute top-3 right-3 text-gray-300 hover:text-gray-600 transition cursor-pointer"
           onClick={onClose}
           aria-label="Закрыть модальное окно"
         >
@@ -83,7 +97,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-full py-2 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition text-base shadow-sm"
+            className="w-full py-2 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition text-base shadow-sm cursor-pointer"
           >
             Завершить
           </button>
