@@ -162,9 +162,6 @@ const SkillsPage = () => {
     setModalOpen(true);
   };
 
-  // --- Флаг, что тест реально начат и есть вопросы ---
-  const quizStarted = started && tests.length > 0;
-
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 px-4">
       {/* Верхняя панель */}
@@ -226,7 +223,7 @@ const SkillsPage = () => {
           <div className="text-center text-gray-400 py-12">
             Загрузка тестов...
           </div>
-        ) : (
+        ) : !isFinished ? (
           <>
             <div className="w-full flex justify-center">
               <CardForTest
@@ -258,6 +255,10 @@ const SkillsPage = () => {
               )}
             </div>
           </>
+        ) : (
+          <div className="text-center text-gray-400 py-12">
+            Тест завершен! Нажмите "Начать заново", чтобы пройти еще раз
+          </div>
         )}
       </main>
       <SuccessModal
